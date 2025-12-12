@@ -1,0 +1,154 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^(?!z-paging-refresh|z-paging-load-more)z-paging(.*)": "z-paging/components/z-paging$1/z-paging$1.vue",
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [{
+			"path": "pages/launch",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/message/notice/info",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/message/guide/info",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/analysis/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/backfill/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/albums/info",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/income/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/about/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/card/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/card/add",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/home/real-name",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/income/withdraw",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/home/huodong",
+			"style": {
+				"navigationBarTitleText": "训练营抽奖"
+			}
+		},
+		{
+			"path": "pages/albums/promotion",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "推广中心",
+		"navigationBarBackgroundColor": "#FFF",
+		"backgroundColor": "#FFF"
+	},
+	"tabBar": {
+		"borderStyle": "white",
+		"selectedColor": "#FF5730",
+		"color": "#2C2C3C",
+		"backgroundColor": "#fff",
+		"fontSize": "12px",
+		"iconWidth": "20px",
+		"height": "65px",
+		"list": [{
+				"iconPath": "static/images/tabBar/t1.png",
+				"selectedIconPath": "static/images/tabBar/t1-s.png",
+				"pagePath": "pages/index",
+				"text": "首页"
+			},
+			{
+				"iconPath": "static/images/tabBar/t2.png",
+				"selectedIconPath": "static/images/tabBar/t2-s.png",
+				"pagePath": "pages/message/index",
+				"text": "消息"
+			},
+			{
+				"iconPath": "static/images/tabBar/t3s.png",
+				"selectedIconPath": "static/images/tabBar/t3-ss.png",
+				"pagePath": "pages/analysis/index",
+				"text": "数据"
+			},
+			{
+				"iconPath": "static/images/tabBar/t4.png",
+				"selectedIconPath": "static/images/tabBar/t4-s.png",
+				"pagePath": "pages/home/index",
+				"text": "我的"
+			}
+		]
+	}
+}

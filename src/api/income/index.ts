@@ -5,7 +5,7 @@ import { request } from "@/utils";
 export const ApiIncomeDetails = async () => {
     const res = await request<any>({
         method: 'GET',
-        url: `/api/income/detail`,
+        url: `/income/detail`,
     });
     return res.data;
 }
@@ -14,7 +14,7 @@ export const ApiIncomeDetails = async () => {
 export const ApiIncomeTrends = async (params: any) => {
     const res = await request<any>({
         method: 'GET',
-        url: `/api/income/trends`,
+        url: `/income/trends`,
         data: params
     });
     return res.data;
@@ -24,7 +24,7 @@ export const ApiIncomeTrends = async (params: any) => {
 export const ApiOrders = async (params: any) => {
     const res = await request<PageResult<any[]>>({
         method: 'GET',
-        url: `/api/alias/order/list`,
+        url: `/alias/order/list`,
         data: params
     });
     return res.data;
@@ -34,7 +34,7 @@ export const ApiOrders = async (params: any) => {
 export const ApiWithdrawals = async (params: any) => {
     const res = await request<PageResult<any[]>>({
         method: 'GET',
-        url: `/api/withdrawal/list`,
+        url: `/withdrawal/list`,
         data: params
     });
     return res.data;
@@ -44,7 +44,7 @@ export const ApiWithdrawals = async (params: any) => {
 export const ApiApplyWithdrawal = async (data: any) => {
     const res = await request<any>({
         method: 'POST',
-        url: `/api/withdrawal/submit`,
+        url: `/withdrawal/submit`,
         data
     });
     return res.data;

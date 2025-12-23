@@ -6,7 +6,7 @@ import { request } from "@/utils";
 export const getAlbumPushings = async (params?: any) => {
     const res = await request<PageResult<AlbumPushingModel>>({
         method: 'GET',
-        url: '/api/album/pushing/list',
+        url: '/album/pushing/list',
         data: params
     });
     return res.data;

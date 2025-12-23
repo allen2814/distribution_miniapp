@@ -27,28 +27,22 @@
 			</view>
 		</view>
 		<view class="myp-full-flex">
-			<Albums :search-query="queryText" />
+			<Albums v-if="tabs_index === 0" :search-query="queryText" />
+			<Storys v-if="tabs_index === 1" :search-query="queryText" />
 		</view>
 	</view>
-
-	<up-popup :show="isRealName" mode="center" bgColor="inherit" round="20rpx">
-		<view class="real-name-dialog">
-			<text class="long-name">实名认证</text>
-			<text class="title">
-				根据国家相关政策要求，需要完成实名认证方可进行提现操作，未满18岁用户将受到系统限制。你的信息将进行严格的隐私保护，请放心认证。
-			</text>
-			<view class="close" @click="jumpRealName">去认证</view>
-		</view>
-	</up-popup>
+	<real-name-pop v-model="isRealName" />
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref, toRefs } from 'vue';
+import { onLoad } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
 
 import CapsuleButton from '@/components/capsule-button.vue';
 import Albums from '@/pages/albums/list.vue';
-import { onLoad, onShow } from '@dcloudio/uni-app';
+import Storys from '@/pages/storys/list.vue';
+import RealNamePop from '@/components/realNamePop.vue';
 
 const { userInfo } = toRefs(useUserStore());
 const isRealName = ref<boolean>(false);
@@ -57,7 +51,7 @@ const queryText = ref<string>('');
 const tabs_index = ref<number>(0);
 const tabs = reactive([
 	{ name: '广播剧' },
-	// { name: '小说' },
+	{ name: '小说' },
 ]);
 
 //搜索
@@ -70,21 +64,10 @@ const handelTabs = (index: number) => {
 	tabs_index.value = index;
 }
 
-//跳转实名
-const jumpRealName = () => {
-	uni.navigateTo({
-		url: '/pages/home/real-name'
-	});
-};
-
-onShow(() => {
-	// if (userInfo.value?.verification_status === 2) {
-	// 	isRealName.value = false;
-	// }
-});
-
-onLoad(() => {
-
+onLoad(async () => {
+	if (userInfo.value?.verification_status !== 2) {
+		isRealName.value = true;
+	}
 });
 </script>
 

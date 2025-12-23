@@ -49,10 +49,12 @@
             <view class="defult-btn mt30" @click="onModalConfirm" v-if="!isAmountExceed">确认</view>
         </view>
     </view>
+    <real-name-pop v-model="isRealName" />
 </template>
 
 <script setup lang='ts'>
-import { nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue';
+import { useUserStore } from '@/stores';
 import { onShow } from '@dcloudio/uni-app';
 import { safeToFixed, maskNumber } from '@/utils';
 import type { IncomeModel } from '@/api/income/model';
@@ -60,8 +62,8 @@ import type { UserAccountModel } from '@/api/user/models';
 import { apiUserAccount, apiWithdrawalApply } from '@/api/user';
 import { ApiIncomeDetails } from '@/api/income';
 
-import Navbar from '@/components/navbar.vue';
-
+const { userInfo } = toRefs(useUserStore());
+const isRealName = ref<boolean>(false);
 const isLoading = ref(false);
 const info = ref<IncomeModel>();
 const selectedAccount = ref<UserAccountModel | null>(null);
@@ -100,6 +102,12 @@ const amountChange = (e: any) => {
 //提交表单
 const onModalConfirm = async () => {
     if (isLoading.value) return;
+
+    //实名认证检查
+    if (userInfo.value?.verification_status !== 2) {
+        isRealName.value = true;
+        return;
+    }
 
     if (selectedAccount.value == null) {
         uni.showToast({
@@ -147,7 +155,7 @@ const onModalConfirm = async () => {
 //跳转添加收款账户页面
 const jumpAddAccount = () => {
     uni.navigateTo({
-        url: '/pages/card/index',
+        url: '/pages/card/index?type=selectedAccount',
     });
 };
 

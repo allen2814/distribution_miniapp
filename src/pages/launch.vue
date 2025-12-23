@@ -32,7 +32,6 @@ import { onLoad } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
 import { apiSensitive, apiUserLogin, apiVerifyInvitationCode } from '@/api/user';
 
-import Navbar from '@/components/navbar.vue';
 import CapsuleButton from '@/components/capsule-button.vue';
 
 const { token, userInfo } = toRefs(useUserStore());
@@ -95,8 +94,8 @@ const submit = async () => {
 onLoad((e: any) => {
 	token.value = '';
 	userInfo.value = null;
-	// mobile.value = "15848936485";
-	// getUserInfo();
+	mobile.value = "15848936485";
+	getUserInfo();
 	if (e && e.mobile) {
 		mobile.value = e.mobile;
 		getUserInfo();

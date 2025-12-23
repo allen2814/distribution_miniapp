@@ -46,8 +46,13 @@
         </view>
         <view class="info-view">
           <view class="name">
-            {{ item.album_name }}
-            <!-- <text class="cate-tag">【广播剧】</text> -->
+            <template v-if="item.spread_type == 1">
+              {{ item.album_name }}
+            </template>
+            <template v-if="item.spread_type == 2">
+              {{ item.story_title }}
+            </template>
+            <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type!] }}】</text>
           </view>
         </view>
       </view>
@@ -59,6 +64,7 @@
 import { ref } from 'vue';
 import type { AlbumPushingModel } from '@/api/pushings/model';
 import { getAlbumPushings } from '@/api/pushings';
+import { SpreadTypeEnum } from '@/utils/enums';
 
 import CurrencyFormat from '@/components/currency-format.vue';
 

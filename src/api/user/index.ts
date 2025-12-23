@@ -5,7 +5,7 @@ import type { UserLoginModel, SensitiveModel, UserAccountListModel } from "./mod
 export const apiUserLogin = async (params: any) => {
     const res = await request<UserLoginModel>({
         method: 'POST',
-        url: '/api/user/login',
+        url: '/user/login',
         data: params
     });
 
@@ -16,7 +16,7 @@ export const apiUserLogin = async (params: any) => {
 export const apiSensitive = async () => {
     const res = await request<SensitiveModel>({
         method: 'GET',
-        url: '/api/user/sensitive/info',
+        url: '/user/sensitive/info',
     });
 
     return res.data.userInfo
@@ -26,7 +26,7 @@ export const apiSensitive = async () => {
 export const apiUserAccount = async () => {
     const res = await request<UserAccountListModel>({
         method: 'GET',
-        url: '/api/withdrawal/account_list'
+        url: '/withdrawal/account_list'
     });
     return res.data.list;
 }
@@ -35,7 +35,17 @@ export const apiUserAccount = async () => {
 export const apiAddUserAccount = async (data: any) => {
     const res = await request<any>({
         method: 'POST',
-        url: '/api/withdrawal/account_add',
+        url: '/withdrawal/account_add',
+        data
+    });
+    return res.data;
+}
+
+//修改收款账户
+export const apiUpdateUserAccount = async (data: any) => {
+    const res = await request<any>({
+        method: 'PUT',
+        url: '/withdrawal/account_update',
         data
     });
     return res.data;
@@ -45,7 +55,7 @@ export const apiAddUserAccount = async (data: any) => {
 export const apiDeleteUserAccount = async (account_id: number, account_type: number) => {
     const res = await request<any>({
         method: 'DELETE',
-        url: `/api/withdrawal/account_delete`,
+        url: `/withdrawal/account_delete`,
         data: { account_id, account_type }
     });
     return res.data;
@@ -55,8 +65,17 @@ export const apiDeleteUserAccount = async (account_id: number, account_type: num
 export const apiSetDefaultUserAccount = async (account_id: number, account_type: number) => {
     const res = await request<any>({
         method: 'PUT',
-        url: `/api/withdrawal/account_default`,
+        url: `/withdrawal/account_default`,
         data: { account_id, account_type }
+    });
+    return res.data;
+}
+
+//获取收款账户详情
+export const apiGetUserAccountDetail = async (account_id: number, account_type: number) => {
+    const res = await request<any>({
+        method: 'GET',
+        url: `/withdrawal/get_account?account_id=${account_id}&account_type=${account_type}`,
     });
     return res.data;
 }
@@ -65,7 +84,7 @@ export const apiSetDefaultUserAccount = async (account_id: number, account_type:
 export const apiWithdrawalApply = async (data: any) => {
     const res = await request<any>({
         method: 'POST',
-        url: '/api/withdrawal/submit',
+        url: '/withdrawal/submit',
         data
     });
     return res.data;
@@ -75,7 +94,7 @@ export const apiWithdrawalApply = async (data: any) => {
 export const apiVerifyInvitationCode = async (data: any) => {
     const res = await request<any>({
         method: 'POST',
-        url: '/api/user/invitation_code/login',
+        url: '/user/invitation_code/login',
         data
     });
     return res.data;
@@ -85,8 +104,27 @@ export const apiVerifyInvitationCode = async (data: any) => {
 export const apiUserRealNameAuth = async (data: any) => {
     const res = await request<any>({
         method: 'POST',
-        url: '/api/user/sign_up',
+        url: '/user/real_name',
         data
     });
+    return res.data;
+}
+
+//实名认证链接说去
+export const apiGetRealNameAuthUrl = async () => {
+    const res = await request<any>({
+        method: 'GET',
+        url: '/alipay/verify',
+    });
+    return res.data;
+}
+
+//实名认证结果
+export const apiGetRealNameAuthResult = async (user_id: number) => {
+    const res = await request<any>({
+        method: 'GET',
+        url: '/alipay/register/query?out_register_id=' + user_id,
+    });
+    console.log('res', res);
     return res.data;
 }

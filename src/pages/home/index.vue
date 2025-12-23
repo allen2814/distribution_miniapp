@@ -16,28 +16,28 @@
                 <image class="conver" :src="userInfo?.avatar" mode="aspectFill" />
                 <view class="info-box myp-flex-column ml20">
                     <view class="defult-title myp-flex-row myp-align-center">
-                        {{ userInfo?.real_name }}
-                        <!-- <template v-if="userInfo?.verification_status == 2">
+                        <template v-if="userInfo?.verification_status == 2">
                             {{ userInfo?.real_name }}
                             <view class="is-real-name">已实名</view>
                         </template>
                         <template v-else>
                             未实名认证
-                        </template> -->
+                        </template>
                     </view>
                     <view class="defult-description mt10">UID: {{ userInfo?.user_id }}</view>
                 </view>
             </view>
-            <!-- <view class="real-name" v-if="userInfo?.verification_status == 2">
+            <view class="real-name" @click="jumpRealName" v-if="userInfo?.verification_status == 2">
                 <text class="type">已实名</text>
                 <text class="mark">已完成实名认证，可解锁更多服务</text>
+                <text class="iconfont">&#xe6a3;</text>
             </view>
             <view class="real-name" @click="jumpRealName" v-else>
                 <text class="type">待实名</text>
                 <text class="mark">完善实名认证信息，解锁更多服务</text>
                 <text class="iconfont">&#xe6a3;</text>
-            </view> -->
-            <view class="income">
+            </view>
+            <view class="income" v-if="income">
                 <view class="counts">
                     <view class="count-item">
                         <text class="label">总收入</text>
@@ -51,21 +51,14 @@
                 <navigator url="/pages/income/index" class="btn">去提现</navigator>
             </view>
             <view class="user-menu">
-                <!-- <view class="item" @click="jumpRealName">
+                <view class="item" @click="jumpRealName">
                     <image class="icon" src="@/static/images/h1.png" mode="aspectFill" />
                     <text class="title">实名认证</text>
-                </view> -->
+                </view>
                 <navigator hover-class="none" :render-link="false" url="/pages/card/index" class="item">
                     <image class="icon" src="@/static/images/h2.png" mode="aspectFill" />
                     <text class="title">收款账户</text>
                 </navigator>
-                <!-- <view class="item" @click="isPcShow = true">
-                    <image class="icon" src="@/static/images/h3.png" mode="aspectFill" />
-                    <text class="title">电脑端入口</text>
-                    <view class="extra">
-                        <text class="iconfont">&#xe6a3;</text>
-                    </view>
-                </view> -->
                 <view class="item" @click="jumpCustomerService()">
                     <image class="icon" src="@/static/images/h4.png" mode="aspectFill" />
                     <text class="title">联系客服</text>
@@ -74,12 +67,7 @@
                     <image class="icon" src="@/static/images/h5.png" mode="aspectFill" />
                     <text class="title">使用提醒</text>
                 </view>
-                <!-- <view class="item" @click="jumpMessagePage()">
-                    <image class="icon" src="@/static/images/h6.png" mode="aspectFill" />
-                    <text class="title">新手指引</text>
-                </view> -->
             </view>
-
             <view class="huodong" @click="hadnleHuodong" v-if="userInfo?.is_course == 2">
                 <image src="@/static/images/huodong.png" mode="widthFix" />
             </view>
@@ -96,7 +84,7 @@
             <view class="close" @click="isPcShow = false">我知道了</view>
         </view>
     </up-popup>
-    <!-- 使用说明 --> 
+    <!-- 使用说明 -->
     <up-popup :show="isDescribeShow" mode="center" :closeable="true" round="20rpx" @close="isDescribeShow = false">
         <view class="default-dialog-box">
             <view class="title">使用提醒</view>
@@ -159,13 +147,6 @@ const jumpRealName = () => {
     });
 };
 
-//跳转新手指引
-const jumpMessagePage = () => {
-    uni.switchTab({
-        url: '/pages/message/index'
-    });
-};
-
 //跳转客服
 const jumpCustomerService = () => {
     plus.runtime.openURL("https://work.weixin.qq.com/ca/cawcde63b0a48c0f97");
@@ -204,7 +185,7 @@ const getInfo = async () => {
     background-image: url('@/static/images/banner-small.png');
     background-size: 100% auto;
     background-repeat: no-repeat;
-    height: 100%;
+    z-index: 999;
 }
 
 .huodong {

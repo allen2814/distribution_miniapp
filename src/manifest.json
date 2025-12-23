@@ -21,7 +21,9 @@
         },
         /* 模块配置 */
         "modules" : {
-            "File" : {},
+            "File" : {
+                "description" : "文件操作"
+            },
             "UI" : {},
             "UIWebview" : {},
             "Camera" : {}
@@ -45,11 +47,17 @@
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>"
+                ],
+                "schemes" : "tucenter"
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false,
+                "urlschemewhitelist" : "alipay,alipays",
+                "urltypes" : "tucenter"
+            },
             /* SDK配置 */
             "sdkConfigs" : {},
             "splashscreen" : {

@@ -1,5 +1,5 @@
 <template>
-    <web-view :src="`http://bl.mixs.cn/index.html?user_id=${userInfo?.user_id}`"></web-view>
+    <web-view :src="`http://bl.mixs.cn/index.html?user_id=${userInfo?.user_id}&t=${new Date().getTime()}`"></web-view>
 </template>
 
 <script setup lang='ts'>

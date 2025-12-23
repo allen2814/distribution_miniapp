@@ -2,7 +2,7 @@
   <view class="item myp-flex-column" @click.stop="jumpInfo(item?.album_id)">
     <view class="myp-flex-row">
       <div class="album_cover">
-        <up-image class="cover-image" width="140rpx" height="140rpx" :src="item?.cover" :fade="false" shape="circled"
+        <up-image class="cover-image" width="160rpx" height="160rpx" :src="item?.cover" :fade="false" shape="circled"
           radius="10rpx" mode="aspectFill">
           <template v-slot:loading>
             <up-loading-icon size="15"></up-loading-icon>
@@ -14,8 +14,8 @@
       </div>
       <view class="album-info myp-flex-column">
         <view class="defult-title l1">{{ item?.name }}</view>
-        <view class="defult-description mt10 l1">{{ item?.cv_nicknames }}</view>
-        <text class="defult-description l1">
+        <view class="defult-description mt10 l1">主役：{{ item?.cv_nicknames }}</view>
+        <text class="defult-description mt10 l1">
           {{ item?.status == 1 ? '已完结' : '连载中' }}
         </text>
       </view>

@@ -13,8 +13,7 @@
         </template>
         <view class="page">
             <view class="list">
-                <view class="item" v-for="(item, index) in list" @longpress="handleLongPress(item)"
-                    @click="selectAccount(item)">
+                <view class="item" v-for="(item, index) in list" @click="selectAccount(item)">
                     <view class="top-box">
                         <image class="icon" src="@/static/images/i10.png" v-if="item.account_type == 1" />
                         <image class="icon" src="@/static/images/i11.png" v-if="item.account_type == 2" />
@@ -28,9 +27,21 @@
                     <view class="number">
                         {{ maskNumber(item.account_number) }}
                     </view>
+                    <view class="controller">
+                        <view class="controller-btn edit-btn mr30"
+                            @click.stop="editAccount(item.account_id!, item.account_type!)">
+                            <text class="iconfont">&#xe649;</text>
+                            编辑
+                        </view>
+                        <view class="controller-btn delete-btn"
+                            @click.stop="deleteAccount(item.account_id!, item.account_type!)">
+                            <text class="iconfont">&#xe6b4;</text>
+                            删除
+                        </view>
+                    </view>
                 </view>
             </view>
-            <navigator url="/pages/card/add" class="defult-add">
+            <navigator url="/pages/card/add" class="defult-add mt30">
                 去添加
             </navigator>
         </view>
@@ -39,7 +50,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { onShow } from '@dcloudio/uni-app';
+import { onLoad, onShow } from '@dcloudio/uni-app';
 import { maskNumber } from '@/utils';
 import { apiDeleteUserAccount, apiSetDefaultUserAccount, apiUserAccount } from '@/api/user';
 import type { UserAccountModel } from '@/api/user/models';
@@ -48,33 +59,44 @@ import CapsuleButton from '@/components/capsule-button.vue';
 
 const paging = ref();
 const list = ref<UserAccountModel[]>([]);
+const type = ref<string | undefined>();
 
 //选择账户
 const selectAccount = (item: UserAccountModel) => {
+    if (type.value !== 'selectedAccount') {
+        return;
+    }
+
     apiSetDefaultUserAccount(item.account_id, item.account_type).then(() => {
         uni.navigateBack();
     });
 };
+
 //删除
-const handleLongPress = (item: UserAccountModel) => {
+const deleteAccount = (id: number, account_type: number) => {
     uni.showModal({
         title: '提示',
         content: '确定要删除该收款账户吗？',
         confirmText: '删除',
         success: async (res) => {
             if (res.confirm) {
-                await apiDeleteUserAccount(item.account_id, item.account_type);
+                await apiDeleteUserAccount(id, account_type);
                 uni.showToast({
                     title: '删除成功',
                     icon: 'success',
                     success: () => {
-                        setTimeout(() => {
-                            getList();
-                        }, 1500);
+                        getList();
                     }
                 });
             }
         }
+    });
+};
+
+//编辑
+const editAccount = (id: number, account_type: number) => {
+    uni.navigateTo({
+        url: `/pages/card/add?account_id=${id}&account_type=${account_type}`
     });
 };
 
@@ -86,6 +108,10 @@ const getList = async () => {
 
 onShow(() => {
     getList();
+});
+
+onLoad((options: any) => {
+    type.value = options.type;
 });
 
 </script>
@@ -145,6 +171,43 @@ onShow(() => {
             padding-left: 50rpx;
             font-size: 26rpx;
             color: #74788a;
+        }
+
+        .controller {
+            margin-top: 20rpx;
+            padding-top: 20rpx;
+            display: flex;
+            flex-flow: row;
+            justify-content: flex-end;
+            border-top: 1rpx solid #f1f1f1;
+
+            .controller-btn {
+                flex: 1;
+                font-size: 26rpx;
+                height: 58rpx;
+                padding: 0 16rpx;
+                border-radius: 6rpx;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .iconfont {
+                    font-size: 28rpx;
+                    margin-right: 6rpx;
+                }
+            }
+
+            .edit-btn {
+                background: #E6F7FF;
+                color: #1890FF;
+                border: 1rpx solid #91d5ff;
+            }
+
+            .delete-btn {
+                background: #FFF1F0;
+                color: #FF4D4F;
+                border: 1rpx solid #ffa39e;
+            }
         }
     }
 }

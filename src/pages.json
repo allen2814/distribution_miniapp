@@ -8,7 +8,8 @@
 			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
 	},
-	"pages": [{
+	"pages": [
+		{
 			"path": "pages/launch",
 			"style": {
 				"navigationStyle": "custom"
@@ -63,6 +64,12 @@
 			}
 		},
 		{
+			"path": "pages/storys/info",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/income/index",
 			"style": {
 				"navigationStyle": "custom"
@@ -109,6 +116,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/storys/promotion",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -125,7 +138,8 @@
 		"fontSize": "12px",
 		"iconWidth": "20px",
 		"height": "65px",
-		"list": [{
+		"list": [
+			{
 				"iconPath": "static/images/tabBar/t1.png",
 				"selectedIconPath": "static/images/tabBar/t1-s.png",
 				"pagePath": "pages/index",

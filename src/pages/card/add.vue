@@ -2,13 +2,13 @@
     <view class="page myp-flex-column">
         <up-navbar bgColor="inherit" :fixed="true" :autoBack="true">
             <template #center>
-                <text class="up-navbar-title">添加收款账户</text>
+                <text class="up-navbar-title">{{ from.account_id ? '编辑收款账户' : '添加收款账户' }}</text>
             </template>
             <template #right>
                 <CapsuleButton />
             </template>
         </up-navbar>
-        <view class="page-content">
+        <view class="page-content" v-if="!isInofoLoaded">
             <view class="form">
                 <view class="content-inner">
                     <view class="form-item">
@@ -106,7 +106,7 @@
                 </view>
             </view>
             <view class="defult-add mt30" @click="addAccount">
-                添加
+                {{ from.account_id ? '保存修改' : '添加账户' }}
             </view>
         </view>
     </view>
@@ -115,10 +115,12 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import type { IncomeAccountModel } from '@/api/income/model';
-import { apiAddUserAccount } from '@/api/user';
+import { apiAddUserAccount, apiGetUserAccountDetail, apiUpdateUserAccount } from '@/api/user';
 
 import CapsuleButton from '@/components/capsule-button.vue';
+import { onLoad } from '@dcloudio/uni-app';
 
+const isInofoLoaded = ref(false);
 const isReceiveType = ref<boolean>(false);
 const receiveTypes = reactive([
     { text: '支付宝', val: 1 },
@@ -126,6 +128,7 @@ const receiveTypes = reactive([
 ]);
 
 const from = ref<IncomeAccountModel>({
+    account_id: void null,
     real_name: "",
     id_card_number: "",
     mobile: "",
@@ -234,9 +237,11 @@ const addAccount = async () => {
             return;
         }
     }
-    apiAddUserAccount(from.value).then(() => {
+
+    const saveOrUpdate = from.value.account_id ? apiUpdateUserAccount : apiAddUserAccount;
+    saveOrUpdate(from.value).then(() => {
         uni.showToast({
-            title: '添加成功',
+            title: from.value.account_id ? '修改成功' : '添加成功',
             duration: 2000,
             success: () => {
                 setTimeout(() => {
@@ -247,7 +252,28 @@ const addAccount = async () => {
     });
 };
 
+//获取账户详情
+const getInfo = async () => {
+    uni.showLoading();
+    const accountInfo = await apiGetUserAccountDetail(from.value.account_id!, from.value.account_type!);
+    from.value.real_name = accountInfo.real_name;
+    from.value.id_card_number = accountInfo.id_card_number;
+    from.value.mobile = accountInfo.mobile;
+    from.value.bank_name = accountInfo.bank_name;
+    from.value.sub_bank_name = accountInfo.sub_bank_name;
+    from.value.account_number = accountInfo.account_number;
+    isInofoLoaded.value = false;
+    uni.hideLoading();
+}
 
+onLoad((e: any) => {
+    if (e.account_id) {
+        isInofoLoaded.value = true;
+        from.value.account_id = Number(e.account_id);
+        from.value.account_type = Number(e.account_type);
+        getInfo();
+    }
+});
 </script>
 
 <style lang="scss" scoped>

@@ -129,6 +129,16 @@ function filterHtmlTag(htmlString?: string): string {
 	return htmlString.replace(/<[^>]+>/g, '').trim().replace(/\n\n/g, '');
 }
 
+function wordsCount(val?: number): string {
+	if (!val) return "0";
+	if (val < 10000) {
+		return val.toString();
+	} else {
+		return Number((val / 10000).toFixed(2)).toString() + '万';
+	}
+}
+
+
 export {
 	previewImages,
 	getToday,
@@ -139,5 +149,6 @@ export {
 	maskNumber,
 	formatMessageTime,
 	displayUserCount,
-	filterHtmlTag
+	filterHtmlTag,
+	wordsCount
 }

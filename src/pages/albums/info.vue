@@ -76,7 +76,11 @@
 							<view class="content-box">
 								<view class="url l1">{{ item.url }}</view>
 								<text class="code">提取码：{{ item.code }}</text>
-								<view class="copy" @click="copyUrl(item.url, item.code)">复制并打开</view>
+								<view class="defult-btn mt20" @click="copyUrl(item.url, item.code)">
+									<image src="@/static/images/i20.png"
+										style="width: 35rpx;height: 35rpx;padding-right: 5rpx;" />
+									复制并打开
+								</view>
 							</view>
 						</view>
 					</scroll-view>
@@ -157,9 +161,9 @@ const handleAlbumMaterial = () => {
 
 //申请别名推广
 const handlePromotion = () => {
-  uni.navigateTo({
-    url: `/pages/albums/promotion?album_id=${info.value?.album_id}&album_name=${info.value?.name}`,
-  });
+	uni.navigateTo({
+		url: `/pages/albums/promotion?album_id=${info.value?.album_id}&album_name=${info.value?.name}`,
+	});
 };
 
 // 获取详情（并发请求，错误处理，loading 状态优化）

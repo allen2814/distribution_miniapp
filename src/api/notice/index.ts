@@ -6,7 +6,7 @@ import { request } from "@/utils";
 export const getNotices = async (params?: any) => {
     const res = await request<PageResult<NoticeModel>>({
         method: 'GET',
-        url: '/api/system/platform/notice',
+        url: '/system/platform/notice',
         data: params
     });
     return res.data;
@@ -16,7 +16,7 @@ export const getNotices = async (params?: any) => {
 export const getNoticeDetail = async (id: number) => {
     const res = await request<NoticeModel>({
         method: 'GET',
-        url: `/api/system/platform/detial?messageId=${id}`,
+        url: `/system/platform/detial?messageId=${id}`,
     });
     return res.data;
 }

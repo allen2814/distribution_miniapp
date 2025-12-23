@@ -10,7 +10,7 @@ export interface IncomeModel {
 
 //收款账号
 export interface IncomeAccountModel {
-    id?: number,
+    account_id?: number,
     real_name: string,
     id_card_number: string,
     mobile: string,

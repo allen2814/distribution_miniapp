@@ -5,7 +5,11 @@
             <view class="date">
                 <text class="btn btn4 ml10" v-if="item.status == 0">待审核</text>
                 <text class="btn btn1 ml10" v-else-if="item.status == 1">提现成功</text>
-                <text class="btn btn2 ml10" v-else-if="item.status == 2">提现失败</text>
+                <view class="btn btn2 ml10" v-else-if="item.status == 2" style="display: flex;"
+                    @click="showReview(item.review_remark)">
+                    提现失败
+                    <up-icon name="question-circle-fill" color="#FF5730" size="14"></up-icon>
+                </view>
                 <text class="btn btn3 ml10" v-else-if="item.status == 3">已取消</text>
                 <text class="btn btn1 ml10" v-else-if="item.status == 4">审核成功</text>
             </view>
@@ -44,6 +48,14 @@ const props = withDefaults(
     }>(),
     {}
 );
+
+const showReview = (str: string) => {
+    uni.showModal({
+        title: '提现失败原因',
+        content: str,
+        showCancel: false,
+    });
+};
 </script>
 <style lang="scss" scoped>
 .info-view {

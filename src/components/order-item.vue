@@ -29,13 +29,14 @@
         <view class="bottom-view">
             <view class="name">
                 {{ item.name }}
-                <!-- <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type] }}】</text> -->
+                <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type] }}】</text>
             </view>
         </view>
     </view>
 </template>
 <script lang="ts" setup>
 import { formatDateTime, safeToFixed } from '@/utils';
+import { SpreadTypeEnum } from '@/utils/enums';
 
 const props = withDefaults(
     defineProps<{

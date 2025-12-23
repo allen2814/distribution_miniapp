@@ -14,11 +14,11 @@
             <view class="default-info-list">
                 <view class="item">
                     <view class="name">类型：</view>
-                    <view class="value">广播剧</view>
+                    <view class="value">小说</view>
                 </view>
                 <view class="item">
                     <view class="name">剧名：</view>
-                    <view class="value">{{ album_name }}</view>
+                    <view class="value">{{ story_name }}</view>
                 </view>
             </view>
             <view class="bar-title">
@@ -56,13 +56,11 @@ import { ApiRecordsAdd } from '@/api';
 import { onLoad } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
 
-import RealNamePop from '@/components/realNamePop.vue';
-
 const { userInfo } = toRefs(useUserStore());
 const isRealName = ref<boolean>(false);
 
-const album_id = ref<number>();
-const album_name = ref<string>("");
+const story_id = ref<number>();
+const story_name = ref<string>("");
 const promotionText = ref<string>('');
 const isResTyle = ref<boolean>(false);
 const isResTyleCode = ref<number>(0);
@@ -97,9 +95,9 @@ const onModalConfirm = () => {
     }
 
     var params = {
-        product_id: album_id.value,
+        product_id: story_id.value,
         alias_name: promotionText.value,
-        spread_type: 1
+        spread_type: 2
     };
 
     uni.showLoading();
@@ -119,8 +117,8 @@ const onModalConfirm = () => {
 };
 
 onLoad((e: any) => {
-    album_id.value = e.album_id;
-    album_name.value = e.album_name;
+    story_id.value = e.story_id;
+    story_name.value = e.story_name;
 });
 </script>
 

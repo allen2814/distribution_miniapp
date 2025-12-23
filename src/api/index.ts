@@ -1,6 +1,6 @@
 import { request } from "@/utils";
 import type { ApiRecordsInfo, PageResult } from "./models/common";
-import type { AlbumCategoryModel, AlbumModel, StoryCategoryModel, StoryModel } from "./models";
+import type { AlbumCategoryModel, AlbumModel, StoryCategoryModel, StoryChapterModel, StoryModel } from "./models";
 import type{ RecordModel } from "./alias/model";
 
 
@@ -8,7 +8,7 @@ import type{ RecordModel } from "./alias/model";
 export const apiAlbumCategorys = async (params?: any) => {
     const res = await request<PageResult<AlbumCategoryModel>>({
         method: 'GET',
-        url: '/api/album/sort/list',
+        url: '/album/sort/list',
         data: params
     });
     return res.data
@@ -18,7 +18,7 @@ export const apiAlbumCategorys = async (params?: any) => {
 export const apiStoryCategorys = async (params?: any) => {
     const res = await request<PageResult<StoryCategoryModel>>({
         method: 'GET',
-        url: '/api/story/sort/list',
+        url: '/story/sort/list',
         data: params
     });
     return res.data
@@ -28,7 +28,7 @@ export const apiStoryCategorys = async (params?: any) => {
 export const apiAlbums = async (params?: any) => {
     const res = await request<PageResult<AlbumModel[]>>({
         method: 'GET',
-        url: '/api/album/list',
+        url: '/album/list',
         data: params
     });
     return res.data
@@ -38,7 +38,7 @@ export const apiAlbums = async (params?: any) => {
 export const apiStories = async (params?: any) => {
     const res = await request<PageResult<StoryModel[]>>({
         method: 'GET',
-        url: '/api/story/list',
+        url: '/story/list',
         data: params
     });
     return res.data
@@ -48,7 +48,7 @@ export const apiStories = async (params?: any) => {
 export const apiAlbumInfo = async (id: number) => {
     const res = await request<ApiRecordsInfo<AlbumModel>>({
         method: 'GET',
-        url: `/api/album/detail?album_id=${id}`
+        url: `/album/detail?album_id=${id}`
     });
     return res.data;
 }
@@ -57,16 +57,36 @@ export const apiAlbumInfo = async (id: number) => {
 export const apiStoryInfo = async (id: number) => {
     const res = await request<ApiRecordsInfo<StoryModel>>({
         method: 'GET',
-        url: `/api/story/detail?user_story_id=${id}`
+        url: `/story/detail?user_story_id=${id}`
     });
     return res.data;
 }
+
+//获取小说章节列表
+export const apiStoryChapters = async (params?: any) => {
+    const res = await request<PageResult<StoryChapterModel>>({
+        method: 'GET',
+        url: '/story/chapter/list',
+        data: params
+    });
+    return res.data
+}
+
+//获取小说章节详情
+export const apiStoryChapterDetail = async (id: number) => {
+    const res = await request<StoryChapterModel>({
+        method: 'GET',
+        url: `/story/chapter/detail?id=${id}`,
+    });
+    return res.data
+}
+
 
 //获取申词记录
 export const ApiRecords = async (params?: any) => {
     const res = await request<PageResult<RecordModel>>({
         method: 'GET',
-        url: '/api/alias/record/list',
+        url: '/alias/record/list',
         data: params
     });
     return res.data;
@@ -76,7 +96,7 @@ export const ApiRecords = async (params?: any) => {
 export const ApiRecordsDelete = async (id: number, alias_id: number) => {
     const res = await request({
         method: 'DELETE',
-        url: `/api/alias/record/delete?spread_id=${id}&alias_id=${alias_id}`
+        url: `/alias/record/delete?spread_id=${id}&alias_id=${alias_id}`
     });
     return res.data;
 }
@@ -85,7 +105,7 @@ export const ApiRecordsDelete = async (id: number, alias_id: number) => {
 export const ApiRecordsAdd = async (params?: any) => {
     const res = await request({
         method: 'POST',
-        url: '/api/alias/spread/record',
+        url: '/alias/spread/record',
         data: params
     });
     return res.data;
@@ -95,7 +115,7 @@ export const ApiRecordsAdd = async (params?: any) => {
 export const apiAlbumMaterial = async (id: number) => {
     const res = await request<any>({
         method: 'GET',
-        url: `/api/album/material/list?album_id=${id}&sign=applet`
+        url: `/album/material/list?album_id=${id}&sign=applet`
     });
     return res.data;
 }

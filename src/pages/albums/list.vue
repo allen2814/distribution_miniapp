@@ -1,5 +1,5 @@
 <template>
-    <z-paging ref="paging" :fixed="false" v-model="list" show-refresher-when-reload :default-page-size="18"
+    <z-paging ref="paging" :fixed="false" v-model="list" show-refresher-when-reload :default-page-size="10"
         :auto-show-back-to-top="true" @query="getList">
         <template #backToTop>
             <view class="back-top">
@@ -10,7 +10,7 @@
             <view class="main-wrapper">
                 <view class="filter mb10">
                     <view class="filter-item selected" @click="showSubmenu = !showSubmenu">
-                        {{shortTypeList.find(i => i.val === short_type)?.name}}
+                        排序
                         <text class="iconfont">&#xe79b;</text>
                         <view class="submenu" v-if="showSubmenu" @click.stop>
                             <view class="submenu-box">

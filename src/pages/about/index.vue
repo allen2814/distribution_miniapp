@@ -20,10 +20,10 @@
                         兔 U 达人中心是聚焦广播剧生态的官方推广合作平台，专为达人提供广播剧分发变现的一站式服务，依托兔 U 丰富的正版广播剧资源，让达人轻松实现流量变现。
                     </text>
                 </view>
-                <!-- <view class="item">
+                <view class="item">
                     <text class="title">版本</text>
                     <text class="right-text">V{{ appVersion }}</text>
-                </view> -->
+                </view>
             </view>
         </view>
     </view>

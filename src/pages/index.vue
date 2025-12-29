@@ -51,7 +51,7 @@ const queryText = ref<string>('');
 const tabs_index = ref<number>(0);
 const tabs = reactive([
 	{ name: '广播剧' },
-	{ name: '小说' },
+	// { name: '小说' },
 ]);
 
 //搜索

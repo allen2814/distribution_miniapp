@@ -94,8 +94,8 @@ const submit = async () => {
 onLoad((e: any) => {
 	token.value = '';
 	userInfo.value = null;
-	mobile.value = "15848936485";
-	getUserInfo();
+	// mobile.value = "15035371904";
+	// getUserInfo();
 	if (e && e.mobile) {
 		mobile.value = e.mobile;
 		getUserInfo();

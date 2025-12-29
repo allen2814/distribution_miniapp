@@ -9,7 +9,7 @@
             </template>
         </up-navbar>
 
-        <view class="page-content" v-if="userInfo?.verification_status !== 2">
+        <view class="page-content" v-if="userInfo?.verification_status == 2">
             <view class="main-wrapper">
                 <view class="real-form">
                     <view class="left">
@@ -56,7 +56,6 @@
                     </view>
                 </view>
             </view>
-            {{ any }}
             <view class="defult-add mt30" @click="submit" v-if="!isRealNameLoading">
                 立即认证
             </view>
@@ -81,8 +80,8 @@ const { userInfo } = toRefs(useUserStore());
 const isRealNameLoading = ref<boolean>(false);
 
 const from = reactive({
-    real_name: '王宝龙',
-    id_card_number: '152325191001272519',
+    real_name: '',
+    id_card_number: '',
 });
 
 // 姓名掩码：显示首字及尾字，中间用 * 替代（长度<=2 不掩码）
@@ -137,38 +136,32 @@ const submit = async () => {
 };
 
 //跳转实名
-const any = ref<any>(null);
 const jumpRealName = async () => {
     const url = await apiGetRealNameAuthUrl();
     isRealNameLoading.value = true;
 
-    plus.runtime.openURL("alipay://");
-    return;
-
-    plus.runtime.openURL(
-        url,
-        (error: any) => {
-            console.error('唤起支付宝失败：', error);
-            if (typeof error === 'string' && error.includes('No Activity found to handle Intent')) {
-                isRealNameLoading.value = false;
-                uni.showModal({
-                    title: '提示',
-                    content: '未检测到支付宝App，请先安装支付宝后再操作',
-                    showCancel: false,
-                    confirmText: '知道了'
-                });
-            }
-            else if (uni.getSystemInfoSync().platform === 'ios') {
-                isRealNameLoading.value = false;
-                uni.showModal({
-                    title: '提示',
-                    content: '无法打开支付宝，请检查是否已安装支付宝App',
-                    showCancel: false,
-                    confirmText: '知道了'
-                });
-            }
-        }
-    );
+    if (plus.os.name == "iOS") {
+        plus.runtime.launchApplication({ action: url }, (error: any) => {
+            isRealNameLoading.value = false;
+            uni.showModal({
+                title: '提示',
+                content: error.message,
+                showCancel: false,
+                confirmText: '知道了'
+            });
+        });
+    }
+    else if (plus.os.name == "Android") {
+        plus.runtime.openURL(url, (error: any) => {
+            isRealNameLoading.value = false;
+            uni.showModal({
+                title: '提示',
+                content: error,
+                showCancel: false,
+                confirmText: '知道了'
+            });
+        });
+    }
 };
 
 //查询实名认证结果
@@ -177,10 +170,11 @@ const checkRealNameResult = async () => {
         const res = await apiGetRealNameAuthResult(userInfo.value!.user_id);
         if (res.code === 200) {
             userInfo.value = await apiSensitive();
+            isRealNameLoading.value = false;
             uni.showToast({ title: '实名认证成功', icon: 'none' });
             setTimeout(() => {
                 uni.navigateBack();
-            }, 1500);
+            }, 2000);
         } else {
             uni.showToast({ title: res.msg, icon: 'none' });
         }
@@ -260,6 +254,26 @@ onShow(() => {
             height: 80rpx;
             margin-bottom: 10rpx;
         }
+    }
+}
+
+.ceshi {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20rpx;
+
+    .item {
+        flex: 1;
+        height: 100rpx;
+        margin: 0 10rpx;
+        background-color: #f0f0f0;
+        border-radius: 5rpx;
+        font-size: 24rpx;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 </style>

@@ -22,12 +22,12 @@
                     </view>
                     <text class="title">关于</text>
                 </view>
-                <view class="item" @click="reEnterPage()">
+                <!-- <view class="item" @click="reEnterPage()">
                     <view class="top">
                         <view class="iconfont">&#xe6a4;</view>
                     </view>
                     <text class="title">重新进入</text>
-                </view>
+                </view> -->
             </view>
             <view class="footer" @click="isMenuBox = false">
                 <text class="footer-text">取消</text>

@@ -28,7 +28,7 @@
             <template v-if="item.spread_type == 2">
               {{ item.story_title }}
             </template>
-            <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type!] }}】</text>
+            <text class="cate-tag display-none">【{{ SpreadTypeEnum[item.spread_type!] }}】</text>
           </view>
         </view>
         <view class="info-view">

@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue';
+import { ref, toRefs } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
 
@@ -49,9 +49,8 @@ const isRealName = ref<boolean>(false);
 const searchText = ref<string>('');
 const queryText = ref<string>('');
 const tabs_index = ref<number>(0);
-const tabs = reactive([
+const tabs = ref([
 	{ name: '广播剧' },
-	// { name: '小说' },
 ]);
 
 //搜索
@@ -68,6 +67,10 @@ onLoad(async () => {
 	if (userInfo.value?.verification_status !== 2) {
 		isRealName.value = true;
 	}
+
+	if (userInfo.value?.is_story == 1) {
+		tabs.value.push({ name: '小说' });
+	}
 });
 </script>
 
@@ -77,19 +80,5 @@ onLoad(async () => {
 	background-image: url('@/static/images/banner-small.png');
 	background-size: 100% auto;
 	background-repeat: no-repeat;
-}
-
-.ceshi {
-	position: fixed;
-	bottom: 200rpx;
-	right: 20rpx;
-	background-color: rgba(0, 0, 0, 0.5);
-	color: #fff;
-	width: 80rpx;
-	height: 80rpx;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 </style>

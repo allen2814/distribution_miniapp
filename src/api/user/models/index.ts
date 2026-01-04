@@ -8,6 +8,7 @@ export interface UserModel {
     id_card_number?: string,
     verification_status: number,
     is_course: number,
+    is_story: number,
 }
 
 //用户登录模型

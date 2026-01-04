@@ -29,7 +29,7 @@
         <view class="bottom-view">
             <view class="name">
                 {{ item.name }}
-                <text class="cate-tag display-none">【{{ SpreadTypeEnum[item.spread_type] }}】</text>
+                <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type] }}】</text>
             </view>
         </view>
     </view>

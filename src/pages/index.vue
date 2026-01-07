@@ -31,7 +31,6 @@
 			<Storys v-if="tabs_index === 1" :search-query="queryText" />
 		</view>
 	</view>
-	<real-name-pop v-model="isRealName" />
 </template>
 
 <script lang="ts" setup>
@@ -42,10 +41,8 @@ import { useUserStore } from '@/stores';
 import CapsuleButton from '@/components/capsule-button.vue';
 import Albums from '@/pages/albums/list.vue';
 import Storys from '@/pages/storys/list.vue';
-import RealNamePop from '@/components/realNamePop.vue';
 
 const { userInfo } = toRefs(useUserStore());
-const isRealName = ref<boolean>(false);
 const searchText = ref<string>('');
 const queryText = ref<string>('');
 const tabs_index = ref<number>(0);
@@ -64,10 +61,6 @@ const handelTabs = (index: number) => {
 }
 
 onLoad(async () => {
-	if (userInfo.value?.verification_status !== 2) {
-		isRealName.value = true;
-	}
-
 	if (userInfo.value?.is_story == 1) {
 		tabs.value.push({ name: '小说' });
 	}

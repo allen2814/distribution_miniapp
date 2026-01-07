@@ -64,19 +64,16 @@
             </view>
         </up-form>
     </view>
-    <real-name-pop v-model="isRealName" />
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, watch } from 'vue';
-import { useUserStore } from '@/stores';
+import { ref, watch } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
 import { getToday } from '@/utils/main';
 import { SpreadTypeEnum } from '@/utils/enums';
 import { ApiBackfillAdd, ApiBackfillDelete, ApiBackfills } from '@/api/alias';
 
 import CapsuleButton from '@/components/capsule-button.vue';
-import RealNamePop from '@/components/realNamePop.vue';
 
 interface PostItem {
     id?: number;
@@ -85,8 +82,6 @@ interface PostItem {
     post_link: string;
 }
 
-const { userInfo } = toRefs(useUserStore());
-const isRealName = ref<boolean>(false);
 const formRef = ref<any>(null);
 const isSubmitting = ref(false);
 const rules = ref<Record<string, any>>({});
@@ -119,12 +114,6 @@ const genRules = () => {
 
 // 添加一项发文
 const addItem = () => {
-    //实名认证检查
-    if (userInfo.value?.verification_status !== 2) {
-        isRealName.value = true;
-        return;
-    }
-
     posts.value.push({ post_date: '', post_link: '' });
     genRules();
 };
@@ -163,12 +152,6 @@ function onPickerChange(index: number, e: any) {
 // 提交
 const handleSubmit = async () => {
     if (isSubmitting.value) return;
-
-    //实名认证检查
-    if (userInfo.value?.verification_status !== 2) {
-        isRealName.value = true;
-        return;
-    }
 
     if (posts.value.length === 0) {
         uni.showToast({ title: '请添加发文信息', icon: 'none' });

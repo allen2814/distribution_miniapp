@@ -89,11 +89,13 @@
             </view>
         </up-popup>
     </z-paging>
+    <real-name-pop v-model="isRealName" />
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
+import { useUserStore } from '@/stores';
 import type { IncomeModel } from '@/api/income/model';
 import { ApiIncomeDetails, ApiOrders, ApiWithdrawals } from '@/api/income';
 
@@ -101,7 +103,10 @@ import OrderItem from '@/components/order-item.vue';
 import WithdrawalItem from '@/components/withdrawal-item.vue';
 import CapsuleButton from '@/components/capsule-button.vue';
 import CurrencyFormat from '@/components/currency-format.vue';
+import RealNamePop from '@/components/realNamePop.vue';
 
+const { userInfo } = toRefs(useUserStore());
+const isRealName = ref<boolean>(false);
 const paging = ref();
 const isLoading = ref(true);
 const isAbout = ref<boolean>(false);
@@ -115,6 +120,12 @@ const tabs = ref<any[]>([
 
 //跳转提现页面
 const handleWithdraw = () => {
+    //实名认证检查
+    if (userInfo.value?.verification_status !== 2) {
+        isRealName.value = true;
+        return;
+    }
+
     uni.navigateTo({
         url: '/pages/income/withdraw',
     });

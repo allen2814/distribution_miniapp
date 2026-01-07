@@ -38,7 +38,6 @@
         </view>
     </view>
 
-    <real-name-pop v-model="isRealName" />
     <up-popup :show="isResTyle" mode="center" bgColor="inherit" round="20rpx">
         <view class="resType-dialog">
             <text class="long-name">{{ promotionText }}</text>
@@ -51,13 +50,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref } from 'vue';
 import { ApiRecordsAdd } from '@/api';
 import { onLoad } from '@dcloudio/uni-app';
-import { useUserStore } from '@/stores';
-
-const { userInfo } = toRefs(useUserStore());
-const isRealName = ref<boolean>(false);
 
 const story_id = ref<number>();
 const story_name = ref<string>("");
@@ -80,12 +75,6 @@ const handleRes = () => {
 
 //提交表单
 const onModalConfirm = () => {
-    //实名认证检查
-    if (userInfo.value?.verification_status !== 2) {
-        isRealName.value = true;
-        return;
-    }
-
     if (!promotionText.value) {
         uni.showToast({
             title: '请输入别名',

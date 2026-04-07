@@ -1,13 +1,5 @@
 <template>
     <view class="container">
-        <!-- <Navbar :autoBack="false" bgColor="inherit">
-            <template #center>
-                <text class="up-navbar-title">数据</text>
-            </template>
-<template #right>
-                <CapsuleButton />
-            </template>
-</Navbar> -->
         <up-navbar bgColor="inherit" :fixed="false" leftIcon="" :autoBack="true">
             <template #center>
                 <text class="up-navbar-title">数据</text>

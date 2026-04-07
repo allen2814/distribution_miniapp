@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
+import { useUserStore } from "./stores";
 
-onLaunch(() => {
+onLaunch(async (options) => {
+    const userStore = useUserStore();
+
+    //userStore.mobile = '15035371904';
+    if (options && options.referrerInfo && options.referrerInfo.extraData && options.referrerInfo.extraData.mobile) {
+        userStore.mobile = options.referrerInfo.extraData.mobile;
+    }
 });
 
 onShow(() => {

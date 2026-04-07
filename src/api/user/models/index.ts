@@ -9,6 +9,7 @@ export interface UserModel {
     verification_status: number,
     is_course: number,
     is_story: number,
+    is_book_list: number,
 }
 
 //用户登录模型

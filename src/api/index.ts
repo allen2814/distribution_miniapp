@@ -1,7 +1,7 @@
 import { request } from "@/utils";
 import type { ApiRecordsInfo, PageResult } from "./models/common";
-import type { AlbumCategoryModel, AlbumModel, StoryCategoryModel, StoryChapterModel, StoryModel } from "./models";
-import type{ RecordModel } from "./alias/model";
+import type { AlbumCategoryModel, AlbumModel, BookListModel, StoryCategoryModel, StoryChapterModel, StoryModel } from "./models";
+import type { RecordModel } from "./alias/model";
 
 
 //获取广播剧分类
@@ -118,4 +118,32 @@ export const apiAlbumMaterial = async (id: number) => {
         url: `/album/material/list?album_id=${id}&sign=applet`
     });
     return res.data;
+}
+
+//获取书单列表
+export const apiBookLists = async (params?: any) => {
+    const res = await request<PageResult<BookListModel[]>>({
+        method: 'GET',
+        url: '/booklist/list',
+        data: params
+    });
+    return res.data
+}
+
+//书单详情
+export const apiBookListInfo = async (id: number, user_id: number) => {
+    const res = await request<BookListModel>({
+        method: 'GET',
+        url: `/booklist/content/detial?story_list_id=${id}&user_story_id=${user_id}`,
+    });
+    return res.data;
+}
+
+//书单故事列表
+export const apiBookListStories = async (id?: number) => {
+    const res = await request<BookListModel>({
+        method: 'GET',
+        url: `/booklist/story_list?story_list_id=${id}`,
+    });
+    return res.data
 }

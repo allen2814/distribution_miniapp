@@ -20,7 +20,7 @@
             </view>
             <view class="item">
                 <view class="name">标题：</view>
-                <view class="value">{{ album_name }}</view>
+                <view class="value">{{ product_name }}</view>
             </view>
             <view class="item">
                 <view class="name">别名：</view>
@@ -89,7 +89,7 @@ const rules = ref<Record<string, any>>({});
 const spread_id = ref<number>(0);
 const spread_type = ref<number>(1);
 const alias_name = ref<string>('');
-const album_name = ref<string>('');
+const product_name = ref<string>('');
 const posts = ref<PostItem[]>([
 
 ]);
@@ -209,42 +209,14 @@ watch(posts, (newVal) => {
     newVal.forEach(p => p.spread_id = spread_id.value ?? 0);
 }, { deep: true });
 
-onLoad((options: Record<string, any> = {}) => {
-    try {
-        const {
-            spread_id: spreadIdParam,
-            spread_type: spreadTypeParam,
-            alias_name: aliasParam = '',
-            album_name: albumNameParam = '',
-            story_title: storyTitleParam = ''
-        } = options;
+onLoad((options: any) => {
+    spread_id.value = Number(options.spread_id) || 0;
+    spread_type.value = Number(options.spread_type) || 1;
+    alias_name.value = options.alias_name || '';
+    product_name.value = options.product_name || '';
 
-        const toNumber = (v: any, fallback = 0) => {
-            const n = Number(v);
-            return Number.isNaN(n) ? fallback : n;
-        };
-
-        const safeStr = (v: any) => {
-            if (v == null) return '';
-            const s = String(v);
-            try { return decodeURIComponent(s); } catch { return s; }
-        };
-
-        spread_id.value = toNumber(spreadIdParam, 0);
-        const st = toNumber(spreadTypeParam, 1);
-        spread_type.value = st === 1 || st === 2 ? st : 1;
-        alias_name.value = safeStr(aliasParam);
-        album_name.value = st === 2 ? safeStr(storyTitleParam) : safeStr(albumNameParam);
-
-        // 同步已有 posts 的 spread_id
-        posts.value.forEach(p => p.spread_id = spread_id.value ?? 0);
-
-        // 尝试拉取后端已有发文记录
-        backfills();
-        genRules();
-    } catch (err) {
-        console.warn('backfill onLoad parse options error', err);
-    }
+    backfills();
+    genRules();
 });
 </script>
 <style>

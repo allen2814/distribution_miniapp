@@ -46,12 +46,7 @@
         </view>
         <view class="info-view">
           <view class="name">
-            <template v-if="item.spread_type == 1">
-              {{ item.album_name }}
-            </template>
-            <template v-if="item.spread_type == 2">
-              {{ item.story_title }}
-            </template>
+             {{ item.product_name }}
             <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type!] }}】</text>
           </view>
         </view>

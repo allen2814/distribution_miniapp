@@ -26,5 +26,6 @@ export interface AlbumPushingModel {
     //专辑名称
     album_name?: string;
     story_title?: string;
+    product_name?: string;
     spread_type?: number;
 }

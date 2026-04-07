@@ -29,6 +29,7 @@
 		<view class="myp-full-flex">
 			<Albums v-if="tabs_index === 0" :search-query="queryText" />
 			<Storys v-if="tabs_index === 1" :search-query="queryText" />
+			<BookList v-if="tabs_index === 2" :search-query="queryText" />
 		</view>
 	</view>
 </template>
@@ -41,6 +42,7 @@ import { useUserStore } from '@/stores';
 import CapsuleButton from '@/components/capsule-button.vue';
 import Albums from '@/pages/albums/list.vue';
 import Storys from '@/pages/storys/list.vue';
+import BookList from '@/pages/bookList/list.vue';
 
 const { userInfo } = toRefs(useUserStore());
 const searchText = ref<string>('');
@@ -63,6 +65,10 @@ const handelTabs = (index: number) => {
 onLoad(async () => {
 	if (userInfo.value?.is_story == 1) {
 		tabs.value.push({ name: '小说' });
+	}
+
+	if (userInfo.value?.is_book_list == 1) {
+		tabs.value.push({ name: '书单' });
 	}
 });
 </script>

@@ -34,9 +34,8 @@ import { apiSensitive, apiUserLogin, apiVerifyInvitationCode } from '@/api/user'
 
 import CapsuleButton from '@/components/capsule-button.vue';
 
-const { token, userInfo } = toRefs(useUserStore());
+const { token, mobile, userInfo } = toRefs(useUserStore());
 const isLoading = ref(true);
-const mobile = ref<string>('');
 const invitationCode = ref<string>('');
 
 const getUserInfo = async () => {
@@ -91,15 +90,8 @@ const submit = async () => {
 	}
 }
 
-onLoad((e: any) => {
-	token.value = '';
-	userInfo.value = null;
-	mobile.value = "15848936485";
+onLoad(() => {
 	getUserInfo();
-	if (e && e.mobile) {
-		mobile.value = e.mobile;
-		getUserInfo();
-	}
 });
 </script>
 

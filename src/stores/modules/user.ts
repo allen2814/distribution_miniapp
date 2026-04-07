@@ -4,10 +4,12 @@ import type { UserModel } from "@/api/user/models";
 
 export const useUserStore = defineStore("user", () => {
 	const token = ref<string>('');
+	const mobile = ref<string>('');
 	const userInfo = ref<UserModel | null>(null);
 
 	return {
 		token,
+		mobile,
 		userInfo,
 	}
 }, {

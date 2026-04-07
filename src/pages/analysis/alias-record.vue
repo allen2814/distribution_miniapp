@@ -22,12 +22,7 @@
         </view>
         <view class="info-view">
           <view class="name">
-            <template v-if="item.spread_type == 1">
-              {{ item.album_name }}
-            </template>
-            <template v-if="item.spread_type == 2">
-              {{ item.story_title }}
-            </template>
+            {{ item.product_name }}
             <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type!] }}】</text>
           </view>
         </view>
@@ -87,8 +82,7 @@ const jumpBackfill = (item: RecordModel | null | undefined) => {
     spread_id: item.spread_id,
     spread_type: item.spread_type ?? '',
     alias_name: item.alias_name ?? '',
-    album_name: item.album_name ?? '',
-    story_title: item.story_title ?? ''
+    product_name: item.product_name ?? ''
   };
   const query = Object.keys(params)
     .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(String(params[k] ?? ''))}`)

@@ -6,6 +6,7 @@ export interface RecordModel {
     album_name?: string,
     spread_id?: number,
     story_title?: string,
+    product_name?: string,
     validity_date?: string,
     validity_period?: string,
     spread_type?: number,

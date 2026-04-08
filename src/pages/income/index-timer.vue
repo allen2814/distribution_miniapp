@@ -1,7 +1,7 @@
 <template>
-    <z-paging ref="paging" class="page" v-model="list" @query="getList">
+    <z-paging ref="paging" class="page" :use-page-scroll="true" v-model="list" @query="getList">
         <template #top>
-            <up-navbar bgColor="inherit" :fixed="false" :autoBack="true">
+            <up-navbar :bgColor="bgColor" :fixed="false" :autoBack="true">
                 <template #center>
                     <text class="up-navbar-title">收益中心</text>
                 </template>
@@ -64,6 +64,7 @@
             </template>
             <template v-else>
                 <order-item :list="list" v-if="tabIndex === 0" />
+                <pull-user :list="list" v-else-if="tabIndex === 1" />
                 <withdrawal-item :list="list" v-else />
             </template>
         </view>
@@ -91,19 +92,20 @@
     </z-paging>
     <real-name-pop v-model="isRealName" />
     <view v-if="refreshToastVisible" class="refresh-toast" :class="{ leaving: refreshToastLeaving }">
-       + 数据已刷新
+        + 数据已刷新
     </view>
 </template>
 
 <script setup lang='ts'>
 import { ref, toRefs } from 'vue';
-import { onHide, onShow, onUnload } from '@dcloudio/uni-app';
+import { onHide, onPageScroll, onShow, onUnload } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
 import type { IncomeModel } from '@/api/income/model';
-import { ApiIncomeDetails, ApiOrders, ApiWithdrawals } from '@/api/income';
+import { ApiIncomeDetails, ApiOrders, ApiPullUsers, ApiWithdrawals } from '@/api/income';
 
 import OrderItem from '@/components/order-item.vue';
 import WithdrawalItem from '@/components/withdrawal-item.vue';
+import PullUser from '@/components/pull-user.vue';
 import CapsuleButton from '@/components/capsule-button.vue';
 import CurrencyFormat from '@/components/currency-format.vue';
 import RealNamePop from '@/components/realNamePop.vue';
@@ -117,14 +119,21 @@ const info = ref<IncomeModel>();
 const list = ref<any[]>([]);
 const tabIndex = ref<number>(0);
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
+const isPagingQuerying = ref(false);
+const isLoadingMoreQuery = ref(false);
+const pauseAutoRefreshForLoadMore = ref(false);
+const isAtTopForAutoRefresh = ref(true);
+const TOP_REFRESH_THRESHOLD = 20;
 let refreshToastHideTimer: ReturnType<typeof setTimeout> | null = null;
 let refreshToastRemoveTimer: ReturnType<typeof setTimeout> | null = null;
 const refreshToastVisible = ref(false);
 const refreshToastLeaving = ref(false);
 const tabs = ref<any[]>([
-    { name: '收入' },
+    { name: '充值收入' },
+    { name: '拉新收入' },
     { name: '提现' }
 ]);
+const bgColor = ref<string>('transparent');
 
 const stopAutoRefresh = () => {
     if (!refreshTimer) return;
@@ -168,6 +177,9 @@ const showRefreshToast = () => {
 const startAutoRefresh = () => {
     stopAutoRefresh();
     refreshTimer = setInterval(() => {
+        if (!isAtTopForAutoRefresh.value || pauseAutoRefreshForLoadMore.value || isPagingQuerying.value || isLoadingMoreQuery.value) {
+            return;
+        }
         paging.value?.reload();
     }, 5000);
 };
@@ -188,6 +200,7 @@ const handleWithdraw = () => {
 //切换tab
 const handleTab = (index: number) => {
     tabIndex.value = index;
+    pauseAutoRefreshForLoadMore.value = false;
     list.value = [];
     isLoading.value = true;
     paging.value.reload();
@@ -195,7 +208,15 @@ const handleTab = (index: number) => {
 
 //获取列表
 const getList = async (pageNo?: number, pageSize?: number) => {
-    const isAutoRefresh = pageNo === 1 && !isLoading.value;
+    const currentPage = Number(pageNo || 1);
+    const isAutoRefresh = currentPage === 1 && !isLoading.value;
+    if (currentPage > 1) {
+        pauseAutoRefreshForLoadMore.value = true;
+    } else if (!isAutoRefresh) {
+        pauseAutoRefreshForLoadMore.value = false;
+    }
+    isPagingQuerying.value = true;
+    isLoadingMoreQuery.value = currentPage > 1;
     const params = {
         page: pageNo,
         limit: pageSize,
@@ -205,12 +226,18 @@ const getList = async (pageNo?: number, pageSize?: number) => {
             const { items } = await ApiOrders(params);
             paging.value.complete(items);
         }
+        else if (tabIndex.value === 1) {
+            const { items } = await ApiPullUsers(params);
+            paging.value.complete(items);
+        }
         else {
             const { data } = await ApiWithdrawals(params);
             paging.value.complete(data);
         }
         incomeDetails();
     } finally {
+        isPagingQuerying.value = false;
+        isLoadingMoreQuery.value = false;
         if (isAutoRefresh) {
             showRefreshToast();
         }
@@ -226,7 +253,18 @@ const incomeDetails = async () => {
     info.value = res.data;
 };
 
+onPageScroll((e) => {
+    isAtTopForAutoRefresh.value = e.scrollTop <= TOP_REFRESH_THRESHOLD;
+    if (e.scrollTop > 0) {
+        bgColor.value = '#fff';
+    } else {
+        bgColor.value = 'transparent';
+    }
+});
+
 onShow(() => {
+    pauseAutoRefreshForLoadMore.value = false;
+    isAtTopForAutoRefresh.value = true;
     incomeDetails();
     startAutoRefresh();
 });
@@ -277,6 +315,7 @@ onUnload(() => {
         opacity: 0;
         transform: translate3d(0, 26rpx, 0);
     }
+
     to {
         opacity: 1;
         transform: translate3d(0, 0, 0);
@@ -288,6 +327,7 @@ onUnload(() => {
         opacity: 1;
         transform: translate3d(0, 0, 0);
     }
+
     to {
         opacity: 0;
         transform: translate3d(0, -18rpx, 0);

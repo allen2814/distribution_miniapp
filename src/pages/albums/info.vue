@@ -90,7 +90,7 @@
 							<image src="@/static/images/i8.png" mode="aspectFill" />
 							作品简介
 						</view>
-						<view class="content-box" v-html="ReplaceNewlinesWithBr(info?.intro ?? '')"></view>
+						<div class="content-box" v-html="ReplaceNewlinesWithBr(info?.intro ?? '')"></div>
 					</view>
 				</view>
 			</view>

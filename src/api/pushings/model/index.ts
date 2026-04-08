@@ -27,5 +27,5 @@ export interface AlbumPushingModel {
     album_name?: string;
     story_title?: string;
     product_name?: string;
-    spread_type?: number;
+    spread_type: number;
 }

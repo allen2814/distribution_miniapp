@@ -10,6 +10,7 @@ export interface UserModel {
     is_course: number,
     is_story: number,
     is_book_list: number,
+    is_anime: number,
 }
 
 //用户登录模型

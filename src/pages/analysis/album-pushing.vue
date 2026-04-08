@@ -46,8 +46,8 @@
         </view>
         <view class="info-view">
           <view class="name">
-             {{ item.product_name }}
-            <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type!] }}】</text>
+            {{ item.product_name }}
+            <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type] }}】</text>
           </view>
         </view>
       </view>

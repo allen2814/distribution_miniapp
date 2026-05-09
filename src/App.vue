@@ -5,10 +5,10 @@ import { useUserStore } from "./stores";
 onLaunch(async (options) => {
     const userStore = useUserStore();
 
-    //userStore.mobile = '15035371904';
-    if (options && options.referrerInfo && options.referrerInfo.extraData && options.referrerInfo.extraData.mobile) {
-        userStore.mobile = options.referrerInfo.extraData.mobile;
-    }
+    userStore.mobile = '15035371904';
+    // if (options && options.referrerInfo && options.referrerInfo.extraData && options.referrerInfo.extraData.mobile) {
+    //     userStore.mobile = options.referrerInfo.extraData.mobile;
+    // }
 });
 
 onShow(() => {

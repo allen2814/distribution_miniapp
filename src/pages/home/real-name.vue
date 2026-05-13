@@ -8,7 +8,6 @@
                 <CapsuleButton />
             </template>
         </up-navbar>
-
         <view class="page-content" v-if="userInfo?.verification_status == 2">
             <view class="main-wrapper">
                 <view class="real-form">
@@ -69,15 +68,16 @@
 
 <script setup lang='ts'>
 import { reactive, ref, toRefs } from 'vue';
+import { onShow } from '@dcloudio/uni-app';
 import { apiGetRealNameAuthResult, apiGetRealNameAuthUrl, apiSensitive, apiUserRealNameAuth } from '@/api/user';
 import { useUserStore } from '@/stores';
 import { maskNumber } from '@/utils/index';
 
 import CapsuleButton from '@/components/capsule-button.vue';
-import { onShow } from '@dcloudio/uni-app';
 
 const { userInfo } = toRefs(useUserStore());
 const isRealNameLoading = ref<boolean>(false);
+let pollingTimer: any = null;
 
 const from = reactive({
     real_name: '',
@@ -139,7 +139,7 @@ const submit = async () => {
 const jumpRealName = async () => {
     const url = await apiGetRealNameAuthUrl();
     isRealNameLoading.value = true;
-
+    startPolling();
     if (plus.os.name == "iOS") {
         plus.runtime.launchApplication({ action: url }, (error: any) => {
             isRealNameLoading.value = false;
@@ -171,6 +171,7 @@ const checkRealNameResult = async () => {
         if (res.code === 200) {
             userInfo.value = await apiSensitive();
             isRealNameLoading.value = false;
+            stopPolling();
             uni.showToast({ title: '实名认证成功', icon: 'none' });
             setTimeout(() => {
                 uni.navigateBack();
@@ -181,15 +182,31 @@ const checkRealNameResult = async () => {
     } catch (error) {
         console.log(error);
     } finally {
-        isRealNameLoading.value = false;
+        
     }
 };
 
-onShow(() => {
-    if (isRealNameLoading.value) {
+// 开始轮询
+const startPolling = () => {
+    if (pollingTimer) return;
+    pollingTimer = setInterval(() => {
         checkRealNameResult();
+    }, 3000);
+};
+
+// 停止轮询
+const stopPolling = () => {
+    if (pollingTimer) {
+        clearInterval(pollingTimer);
+        pollingTimer = null;
     }
-});
+};
+
+// onShow(() => {
+//     if (isRealNameLoading.value) {
+//         checkRealNameResult();
+//     }
+// });
 </script>
 
 <style lang="scss" scoped>

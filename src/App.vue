@@ -5,7 +5,7 @@ import { useUserStore } from "./stores";
 onLaunch(async (options) => {
     const userStore = useUserStore();
 
-    // userStore.mobile = '15848936485';
+    //userStore.mobile = '15848936485';
     if (options && options.referrerInfo && options.referrerInfo.extraData && options.referrerInfo.extraData.mobile) {
         userStore.mobile = options.referrerInfo.extraData.mobile;
     }

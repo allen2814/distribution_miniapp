@@ -204,11 +204,11 @@ const stopPolling = () => {
     }
 };
 
-// onShow(() => {
-//     if (isRealNameLoading.value) {
-//         checkRealNameResult();
-//     }
-// });
+onShow(() => {
+    if (isRealNameLoading.value) {
+        checkRealNameResult();
+    }
+});
 </script>
 
 <style lang="scss" scoped>

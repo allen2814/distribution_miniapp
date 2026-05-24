@@ -62,8 +62,10 @@
             <template v-if="isLoading">
                 <up-loading-icon size="20"></up-loading-icon>
             </template>
+
             <template v-else>
                 <order-item :list="list" v-if="tabIndex === 0" />
+                <pull-user :list="list" v-else-if="tabIndex === 1" />
                 <withdrawal-item :list="list" v-else />
             </template>
         </view>
@@ -97,10 +99,11 @@ import { ref, toRefs } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
 import type { IncomeModel } from '@/api/income/model';
-import { ApiIncomeDetails, ApiOrders, ApiWithdrawals } from '@/api/income';
+import { ApiIncomeDetails, ApiOrders, ApiPullUsers, ApiWithdrawals } from '@/api/income';
 
 import OrderItem from '@/components/order-item.vue';
 import WithdrawalItem from '@/components/withdrawal-item.vue';
+import PullUser from '@/components/pull-user.vue';
 import CapsuleButton from '@/components/capsule-button.vue';
 import CurrencyFormat from '@/components/currency-format.vue';
 import RealNamePop from '@/components/realNamePop.vue';
@@ -114,7 +117,8 @@ const info = ref<IncomeModel>();
 const list = ref<any[]>([]);
 const tabIndex = ref<number>(0);
 const tabs = ref<any[]>([
-    { name: '收入' },
+    { name: '充值收入' },
+    { name: '拉新收入' },
     { name: '提现' }
 ]);
 
@@ -147,6 +151,10 @@ const getList = async (pageNo?: number, pageSize?: number) => {
     };
     if (tabIndex.value === 0) {
         const { items } = await ApiOrders(params);
+        paging.value.complete(items);
+    }
+    else if (tabIndex.value === 1) {
+        const { items } = await ApiPullUsers(params);
         paging.value.complete(items);
     }
     else {

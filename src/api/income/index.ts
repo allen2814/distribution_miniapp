@@ -30,6 +30,16 @@ export const ApiOrders = async (params: any) => {
     return res.data;
 }
 
+//拉新记录
+export const ApiPullUsers = async (params: any) => {
+    const res = await request<PageResult<any[]>>({
+        method: 'GET',
+        url: `/alias/new_user_log`,
+        data: params
+    });
+    return res.data;
+}
+
 //提现记录
 export const ApiWithdrawals = async (params: any) => {
     const res = await request<PageResult<any[]>>({

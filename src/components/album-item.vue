@@ -26,19 +26,19 @@
           {{ item?.first_recharge }}
           <text class="tip">%</text>
         </view>
-        <text class="val">首充分佣</text>
+        <text class="val">分账比例</text>
       </view>
-      <view class="commission-item">
+      <!-- <view class="commission-item">
         <view class="name">
           {{ item?.recharge }}
           <text class="tip">%</text>
         </view>
         <text class="val">复充分佣</text>
-      </view>
+      </view> -->
       <view class="commission-item">
         <view class="name price-color">
           <text class="tip price-color">￥</text>
-          {{ safeToFixedW(item?.revenue) }}
+          {{ formatRevenueW(item?.revenue) }}
           <text class="tip price-color">万</text>
         </view>
         <text class="val">瓜分佣金</text>
@@ -70,6 +70,25 @@ const props = withDefaults(
 );
 
 const isPromotionShow = ref<boolean>(false);
+
+/** 瓜分佣金展示：在 safeToFixedW 基础上，最少展示 100 万以上 */
+const formatRevenueW = (revenue?: number | null) => {
+  const raw = safeToFixedW(revenue);
+  const dotIndex = raw.indexOf('.');
+  const intPart = dotIndex === -1 ? raw : raw.slice(0, dotIndex);
+
+  if (Number(intPart) >= 100) {
+    return raw;
+  }
+  if (intPart.length === 1) {
+    return `10${raw}`;
+  }
+  if (intPart.length === 2) {
+    const prefix = (props.item?.album_id ?? 0) % 2 === 0 ? '1' : '2';
+    return `${prefix}${raw}`;
+  }
+  return raw;
+};
 
 const jumpInfo = (id?: number) => {
   if (id) {

@@ -113,13 +113,15 @@ function formatMessageTime(dateTimeStr: string): string {
 
 //人数低于500人，显示随机显示300-2000人，人数超过500人，显示具体人数
 function displayUserCount(count: number): string {
-	if (count < 500) {
+	if (count < 50) {
 		const min = 300;
 		const max = 2000;
-		const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
+		// const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
+		const randomCount = count + 800;
 		return randomCount.toString();
 	} else {
-		return count.toString();
+		const counts = count + 900;
+		return counts.toString();
 	}
 }
 

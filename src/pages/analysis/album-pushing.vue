@@ -15,29 +15,12 @@
         </view>
         <view class="v1-info-view">
           <view class="pushing-item">
-            <view class="val">
-              {{ item.new_user_count }}
-              <text class="tip">人</text>
-            </view>
-            <text class="label">新用户</text>
-          </view>
-          <view class="pushing-item">
-            <CurrencyFormat :value="item.first_recharge" :fontSize="36" fontWeight="bold" />
-            <text class="label">首充</text>
-          </view>
-          <view class="pushing-item">
-            <CurrencyFormat :value="item.recharge" :fontSize="36" fontWeight="bold" />
-            <text class="label">总收入</text>
-          </view>
-          <view class="pushing-item">
-            <view class="val">
-              <CurrencyFormat :value="item.new_user_reward" :fontSize="36" fontWeight="bold" />
-            </view>
+            <CurrencyFormat :value="item.new_user_reward" :fontSize="36" fontWeight="bold" />
             <text class="label">拉新</text>
           </view>
           <view class="pushing-item">
-            <CurrencyFormat :value="item.repeat_recharge" :fontSize="36" fontWeight="bold" />
-            <text class="label">复充</text>
+            <CurrencyFormat :value="item.recharge" :fontSize="36" fontWeight="bold" />
+            <text class="label">充值</text>
           </view>
           <view class="pushing-item">
             <CurrencyFormat :value="item.estimated_revenue" :fontSize="36" color="#ff5730" fontWeight="bold" />

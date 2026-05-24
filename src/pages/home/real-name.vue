@@ -178,11 +178,12 @@ const checkRealNameResult = async () => {
             }, 2000);
         } else {
             uni.showToast({ title: res.msg, icon: 'none' });
+            stopPolling();
         }
     } catch (error) {
         console.log(error);
     } finally {
-        
+        isRealNameLoading.value = false;
     }
 };
 
@@ -190,6 +191,7 @@ const checkRealNameResult = async () => {
 const startPolling = () => {
     if (pollingTimer) return;
     pollingTimer = setInterval(() => {
+        isRealNameLoading.value = true;
         checkRealNameResult();
     }, 3000);
 };

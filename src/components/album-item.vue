@@ -38,7 +38,7 @@
       <view class="commission-item">
         <view class="name price-color">
           <text class="tip price-color">￥</text>
-          {{ formatRevenueW(item?.revenue) }}
+          {{ safeToFixedW(item?.revenue) }}
           <text class="tip price-color">万</text>
         </view>
         <text class="val">瓜分佣金</text>

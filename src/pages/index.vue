@@ -30,6 +30,7 @@
 			<Albums v-if="tabs_index === 0" :search-query="queryText" />
 			<Storys v-if="tabs_index === 1" :search-query="queryText" />
 			<BookList v-if="tabs_index === 2" :search-query="queryText" />
+			<Animes v-if="tabs_index === 3" :search-query="queryText" />
 		</view>
 	</view>
 </template>
@@ -43,6 +44,7 @@ import CapsuleButton from '@/components/capsule-button.vue';
 import Albums from '@/pages/albums/list.vue';
 import Storys from '@/pages/storys/list.vue';
 import BookList from '@/pages/bookList/list.vue';
+import Animes from '@/pages/animes/list.vue';
 
 const { userInfo } = toRefs(useUserStore());
 const searchText = ref<string>('');
@@ -69,6 +71,10 @@ onLoad(async () => {
 
 	if (userInfo.value?.is_book_list == 1) {
 		tabs.value.push({ name: '书单' });
+	}
+
+	if (userInfo.value?.is_anime == 1) {
+		tabs.value.push({ name: '漫剧' });
 	}
 });
 </script>

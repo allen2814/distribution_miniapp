@@ -10,20 +10,20 @@
                     <text class="currency">￥</text>
                     {{ safeToFixed(item.money, 2) }}
                 </view>
-                <text class="label">拉新金额</text>
+                <text class="label">拉新</text>
             </view>
             <view class="info-view-item">
                 <view class="value">
                     {{ item.ratio }}
                 </view>
-                <text class="label">结算比例</text>
+                <text class="label">分账比例</text>
             </view>
             <view class="info-view-item">
                 <view class="value color1">
                     <text class="currency">￥</text>
                     {{ item.share_money }}
                 </view>
-                <text class="label">收益金额</text>
+                <text class="label">佣金</text>
             </view>
         </view>
         <view class="bottom-view">

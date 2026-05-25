@@ -45,7 +45,7 @@
       </view>
       <view class="commission-item">
         <view class="name">
-          {{ displayUserCount(item?.participate_count ?? 0) }}
+          {{ item?.participate_count ?? 0 }}
           <text class="tip">人</text>
         </view>
         <text class="val">正在推广</text>

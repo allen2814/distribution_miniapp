@@ -116,12 +116,10 @@ function displayUserCount(count: number): string {
 	if (count < 50) {
 		const min = 300;
 		const max = 2000;
-		// const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
-		const randomCount = count + 800;
+		const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
 		return randomCount.toString();
 	} else {
-		const counts = count + 900;
-		return counts.toString();
+		return count.toString();
 	}
 }
 

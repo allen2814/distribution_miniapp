@@ -44,20 +44,20 @@ const getUserInfo = async () => {
 		mobile: mobile.value
 	}
 	const res = await apiUserLogin(params);
-	// if (res && res.is_new == 0) {
-	// 	token.value = res.token.AccessToken;
-	// 	userInfo.value = await apiSensitive();
-	// 	/*#ifdef APP-PLUS*/
-	// 	plus.navigator.closeSplashscreen();
-	// 	/*#endif*/
-	// 	uni.reLaunch({ url: '/pages/index' });
-	// }
-	// else {
-	// 	isLoading.value = false;
-	// 	/*#ifdef APP-PLUS*/
-	// 	plus.navigator.closeSplashscreen();
-	// 	/*#endif*/
-	// }
+	if (res && res.is_new == 0) {
+		token.value = res.token.AccessToken;
+		userInfo.value = await apiSensitive();
+		/*#ifdef APP-PLUS*/
+		plus.navigator.closeSplashscreen();
+		/*#endif*/
+		uni.reLaunch({ url: '/pages/index' });
+	}
+	else {
+		isLoading.value = false;
+		/*#ifdef APP-PLUS*/
+		plus.navigator.closeSplashscreen();
+		/*#endif*/
+	}
 };
 
 //提交邀请码

@@ -40,6 +40,16 @@ export const ApiPullUsers = async (params: any) => {
     return res.data;
 }
 
+//活动红包记录
+export const ApiActivityList = async (params: any) => {
+    const res = await request<PageResult<any[]>>({
+        method: 'GET',
+        url: `/activity/list`,
+        data: params
+    });
+    return res.data;
+}
+
 //提现记录
 export const ApiWithdrawals = async (params: any) => {
     const res = await request<PageResult<any[]>>({

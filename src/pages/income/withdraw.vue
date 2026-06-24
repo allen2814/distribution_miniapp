@@ -52,14 +52,18 @@
 </template>
 
 <script setup lang='ts'>
-import { nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
+import { useUserStore } from '@/stores';
 import { safeToFixed, maskNumber } from '@/utils';
 import type { IncomeModel } from '@/api/income/model';
 import type { UserAccountModel } from '@/api/user/models';
 import { apiUserAccount, apiWithdrawalApply } from '@/api/user';
 import { ApiIncomeDetails } from '@/api/income';
 
+import CapsuleButton from '@/components/capsule-button.vue';
+
+const { userInfo } = toRefs(useUserStore());
 const isLoading = ref(false);
 const info = ref<IncomeModel>();
 const selectedAccount = ref<UserAccountModel | null>(null);
@@ -98,6 +102,14 @@ const amountChange = (e: any) => {
 //提交表单
 const onModalConfirm = async () => {
     if (isLoading.value) return;
+
+    if (userInfo.value?.type === 5) {
+        uni.showToast({
+            title: '非授权无提现权限',
+            icon: 'none'
+        });
+        // return;
+    }
 
     if (selectedAccount.value == null) {
         uni.showToast({

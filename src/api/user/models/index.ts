@@ -7,6 +7,7 @@ export interface UserModel {
     avatar?: string,
     id_card_number?: string,
     verification_status: number,
+    type?: number,
     is_course: number,
     is_story: number,
     is_book_list: number,

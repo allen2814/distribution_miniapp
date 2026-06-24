@@ -101,6 +101,7 @@ import { onShow } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
 import type { IncomeModel } from '@/api/income/model';
 import { ApiIncomeDetails, ApiOrders, ApiPullUsers, ApiActivityList, ApiWithdrawals } from '@/api/income';
+import { apiSensitive } from '@/api/user';
 
 import OrderItem from '@/components/order-item.vue';
 import WithdrawalItem from '@/components/withdrawal-item.vue';
@@ -178,8 +179,14 @@ const incomeDetails = async () => {
     info.value = res.data;
 };
 
+//刷新用户信息
+const refreshUserInfo = async () => {
+    userInfo.value = await apiSensitive();
+};
+
 onShow(() => {
     incomeDetails();
+    refreshUserInfo();
 });
 </script>
 

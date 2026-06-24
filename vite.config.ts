@@ -3,24 +3,24 @@ import uni from "@dcloudio/vite-plugin-uni";
 
 export default defineConfig({
   plugins: [uni()],
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://kol.mixs.cn",
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/rewrite/, '')
-      },
-    },
-  },
   // server: {
   //   proxy: {
   //     "/api": {
-  //       target: "http://dev.kol.mixs.cn",
+  //       target: "http://kol.mixs.cn",
   //       changeOrigin: true,
   //       rewrite: path => path.replace(/^\/rewrite/, '')
   //     },
   //   },
   // },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://dev.kol.mixs.cn",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/rewrite/, '')
+      },
+    },
+  },
   // server: {
   //   proxy: {
   //     "/api": {

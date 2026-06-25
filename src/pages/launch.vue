@@ -8,7 +8,7 @@
 				<CapsuleButton />
 			</template>
 		</up-navbar>
-		<view class="loading-icon" v-if="!isLoading">
+		<view class="loading-icon" v-if="isLoading">
 			<up-loading-icon size="20"></up-loading-icon>
 		</view>
 		<view class="invitation-code-box" v-else>
@@ -43,17 +43,18 @@ const getUserInfo = async () => {
 		platform: "app",
 		mobile: mobile.value
 	}
-	const res = await apiUserLogin(params);
-	if (res && res.is_new == 0) {
-		token.value = res.token.AccessToken;
-		userInfo.value = await apiSensitive();
-		/*#ifdef APP-PLUS*/
-		plus.navigator.closeSplashscreen();
-		/*#endif*/
-		uni.reLaunch({ url: '/pages/index' });
-	}
-	else {
+	try {
+		const res = await apiUserLogin(params);
+		if (res && res.is_new == 0) {
+			token.value = res.token.AccessToken;
+			userInfo.value = await apiSensitive();
+			uni.reLaunch({ url: '/pages/index' });
+		} else {
+			isLoading.value = false;
+		}
+	} catch {
 		isLoading.value = false;
+	} finally {
 		/*#ifdef APP-PLUS*/
 		plus.navigator.closeSplashscreen();
 		/*#endif*/

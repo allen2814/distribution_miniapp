@@ -15,7 +15,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://dev.kol.mixs.cn",
+        target: "http://kol.mixs.cn",
         changeOrigin: true,
         rewrite: path => path.replace(/^\/rewrite/, '')
       },

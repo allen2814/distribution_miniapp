@@ -233,6 +233,10 @@
             margin-left: 4rpx;
         }
 
+        &.submenu-open {
+            z-index: 1000;
+        }
+
         .submenu {
             width: 220rpx;
             position: absolute;
@@ -274,9 +278,23 @@
         }
     }
 
+    .submenu-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 998;
+    }
+
     .filter-scroll {
         flex: 1;
         min-width: 0;
+
+        &.submenu-open {
+            position: relative;
+            z-index: 1000;
+        }
         white-space: nowrap;
         display: flex;
         align-items: center;

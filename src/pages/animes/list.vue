@@ -9,7 +9,9 @@
         <template #top>
             <view class="main-wrapper">
                 <view class="filter mb10">
-                    <view class="filter-item selected" @click="showSubmenu = !showSubmenu">
+                    <view class="submenu-mask" v-if="showSubmenu" @click="showSubmenu = false"></view>
+                    <view class="filter-item selected" :class="{ 'submenu-open': showSubmenu }"
+                        @click="showSubmenu = !showSubmenu">
                         排序
                         <text class="iconfont">&#xe79b;</text>
                         <view class="submenu" v-if="showSubmenu" @click.stop>
@@ -22,7 +24,7 @@
                             </view>
                         </view>
                     </view>
-                    <scroll-view scroll-x scroll-xew class="filter-scroll ml20">
+                    <scroll-view scroll-x scroll-xew class="filter-scroll ml20" :class="{ 'submenu-open': showSubmenu }">
                         <view class="filter-scroll-item" v-for="(item, index) in category_list" :key="index"
                             @click="handleCategory(item.id)">
                             <view class="scroll-item" :class="{ selected: category_id === item.id }"> {{ item.name }}
@@ -72,6 +74,7 @@ const handleShortType = (val: number) => {
 
 //选择分类
 const handleCategory = (id?: number) => {
+    showSubmenu.value = false;
     if (category_id.value === id) {
         category_id.value = undefined;
     } else {

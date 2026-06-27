@@ -78,12 +78,12 @@ const formAmount = reactive({
 //全部结算
 const handleSettleAll = () => {
     //如果金额0则不处理
-    if (info.value?.available_amount === undefined || info.value?.available_amount === null ||
+    if (!info.value?.available_amount ||
         Number(info.value?.available_amount) <= 0) {
         return;
     }
 
-    formAmount.amount = (info.value?.available_amount !== undefined && info.value?.available_amount !== null)
+    formAmount.amount = info.value?.available_amount
         ? Number(info.value.available_amount).toFixed(2)
         : '0.00';
 };
@@ -108,10 +108,10 @@ const onModalConfirm = async () => {
             title: '非授权无提现权限',
             icon: 'none'
         });
-        // return;
+        return;
     }
 
-    if (selectedAccount.value == null) {
+    if (!selectedAccount.value) {
         uni.showToast({
             title: '请选择收款账户',
             icon: 'error'

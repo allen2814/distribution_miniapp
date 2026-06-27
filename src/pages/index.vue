@@ -12,7 +12,7 @@
 			<view class="search">
 				<view class="search-input">
 					<up-input class="input" placeholder="请输入内容" border="none" inputAlign="center" fontSize="28rpx"
-						confirmType="search" v-model="searchText">
+						confirmType="search" v-model="searchText" @confirm="search">
 					</up-input>
 				</view>
 				<view class="search-btn" @click="search">

@@ -40,14 +40,14 @@
 									{{ info?.first_recharge }}
 									<text class="tip">%</text>
 								</view>
-								<text class="val">新用户</text>
+								<text class="val">充值</text>
 							</view>
 							<view class="item">
 								<view class="name">
-									{{ info?.recharge }}
-									<text class="tip">%</text>
+									<text class="tip">￥</text>
+									0.5
 								</view>
-								<text class="val">老用户</text>
+								<text class="val">拉新</text>
 							</view>
 							<view class="item">
 								<view class="name" style="word-spacing: -10rpx;">

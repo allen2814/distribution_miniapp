@@ -2,7 +2,7 @@
     <view class="item" v-for="(item, index) in list" :key="index">
         <view class="name-view">
             <text class="name">别名：{{ item.alias_name }}</text>
-            <text class="defult-description">{{ formatDateTime(item.created_at, 'yyyy-MM-dd HH:mm') }}</text>
+            <text class="defult-description">{{ item.created_at }}</text>
         </view>
         <view class="info-view">
             <view class="info-view-item">

@@ -62,7 +62,7 @@
 							申请别名推广
 						</view>
 					</view>
-					<scroll-view class="info-sucai" scroll-x v-if="albumMaterial && albumMaterial.list">
+					<scroll-view class="info-sucai" scroll-x v-if="albumMaterial && albumMaterial.list && userInfo?.type !== 5">
 						<view class="item" :class="itemClass" v-for="(item, index) in albumMaterial.list" :key="index">
 							<view class="title-box"
 								style="background: linear-gradient(90deg, #FFF6E7 -5.25%, #FFF 104.96%);">
@@ -100,13 +100,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import { onLoad, onPageScroll } from '@dcloudio/uni-app';
 import { ReplaceNewlinesWithBr } from '@/utils/main';
 import type { AlbumModel } from '@/api/models';
 import { apiAlbumInfo, apiAlbumMaterial } from '@/api';
 
 import CapsuleButton from '@/components/capsule-button.vue';
+import { useUserStore } from '@/stores';
 
 const bgColor = ref<string>('transparent');
 const isLoading = ref<boolean>(true);
@@ -114,7 +115,7 @@ const id = ref<number>(0);
 const info = ref<AlbumModel | null>(null);
 const albumMaterial = ref<any>(null);
 const albumMaterialURL = ref<string>('');
-
+const { userInfo } = toRefs(useUserStore());
 const cloudStorageMap: Record<number, string> = {
 	1: '百度网盘',
 	2: '夸克网盘',

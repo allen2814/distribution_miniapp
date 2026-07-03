@@ -138,6 +138,73 @@ function wordsCount(val?: number): string {
 	}
 }
 
+/**
+ * 校验证件号码，支持大陆身份证、港澳台证件及外籍护照等
+ */
+function isValidIdDocument(value: string): boolean {
+	const id = value.trim();
+	if (!id || id.length < 6 || id.length > 30) return false;
+	if (!/^[A-Za-z0-9()\-]+$/.test(id)) return false;
+
+	// 疑似大陆18位身份证时做严格校验
+	if (/^\d{17}[\dXx]$/.test(id)) {
+		return /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(id);
+	}
+	// 旧版大陆15位身份证
+	if (/^\d{15}$/.test(id)) return true;
+
+	const regionalPatterns = [
+		// 香港身份证，如 A123456(7) 或 A1234567
+		/^[A-Z]{1,2}\d{6}\(?[0-9A]\)?$/i,
+		// 澳门身份证，如 1234567(8)
+		/^[157]\d{6}\(?\d\)?$/,
+		// 台湾身份证 / 居留证等
+		/^[A-Z][1289]\d{8}$/i,
+		/^[A-Z]{2}\d{8}$/i,
+		// 外籍护照等（须含字母）
+		/^(?=.*[A-Za-z])[A-Za-z0-9\-]{6,30}$/,
+	];
+
+	return regionalPatterns.some((pattern) => pattern.test(id));
+}
+
+/**
+ * 校验手机号，支持大陆、港澳台及国际号码
+ */
+function isValidMobile(value: string): boolean {
+	let mobile = value.trim().replace(/[\s\-]/g, '');
+	if (!mobile) return false;
+	if (mobile.startsWith('00')) {
+		mobile = '+' + mobile.slice(2);
+	}
+	if (!/^\+?\d+$/.test(mobile)) return false;
+
+	const patterns = [
+		// 大陆手机号
+		/^1[3-9]\d{9}$/,
+		/^86[1-9]\d{10}$/,
+		/^\+86[1-9]\d{10}$/,
+		// 香港（8位 / 带区号）
+		/^[569]\d{7}$/,
+		/^852[569]\d{7}$/,
+		/^\+852[569]\d{7}$/,
+		// 澳门
+		/^6\d{7}$/,
+		/^8536\d{7}$/,
+		/^\+8536\d{7}$/,
+		// 台湾
+		/^09\d{8}$/,
+		/^88609\d{8}$/,
+		/^\+88609\d{8}$/,
+		// 国际号码（带 + 号）
+		/^\+[1-9]\d{6,14}$/,
+		// 其他地区号码（8-15位数字）
+		/^[1-9]\d{7,14}$/,
+	];
+
+	return patterns.some((pattern) => pattern.test(mobile));
+}
+
 
 export {
 	previewImages,
@@ -150,5 +217,7 @@ export {
 	formatMessageTime,
 	displayUserCount,
 	filterHtmlTag,
-	wordsCount
+	wordsCount,
+	isValidIdDocument,
+	isValidMobile
 }

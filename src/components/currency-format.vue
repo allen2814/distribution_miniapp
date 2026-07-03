@@ -2,18 +2,30 @@
     <view class="currency-format" :style="`font-size: ${fontSize}rpx; color: ${color}; font-weight: ${fontWeight}`">
         <text class="currency-format-tip">￥</text>
         <text>{{ computedValue }}</text>
-        <text class="currency-format-tip">{{ computedValueString }}</text>
+        <text v-if="computedValueString" class="currency-format-tip">{{ computedValueString }}</text>
     </view>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
 
+/** 解析金额，无效值返回 null */
+const parseAmount = (value: number | string | null | undefined): number | null => {
+    if (value === null || value === undefined) return null;
+    if (typeof value === 'number') {
+        return Number.isFinite(value) ? value : null;
+    }
+    const str = String(value).trim();
+    if (!str) return null;
+    const cleaned = str.replace(/,/g, '').replace(/[￥¥]/g, '');
+    const num = Number(cleaned);
+    return Number.isFinite(num) ? num : null;
+};
+
 /** 截断到指定小数位，不四舍五入 */
 const truncateToFixed = (value: number, decimals: number) => {
-	if (isNaN(value)) return '0.00';
-	const factor = 10 ** decimals;
-	return (Math.trunc(value * factor) / factor).toFixed(decimals);
+    const factor = 10 ** decimals;
+    return (Math.trunc(value * factor) / factor).toFixed(decimals);
 };
 
 const props = defineProps({
@@ -34,9 +46,11 @@ const props = defineProps({
     },
 });
 
-const computedValue = computed(() => {
-    let val = Number(props.value);
+const parsedAmount = computed(() => parseAmount(props.value));
 
+const computedValue = computed(() => {
+    const val = parsedAmount.value;
+    if (val === null) return '--';
     if (val < 10000) {
         return truncateToFixed(val, 2);
     }
@@ -44,16 +58,10 @@ const computedValue = computed(() => {
 });
 
 const computedValueString = computed(() => {
-    let val = Number(props.value);
-
-    if (val < 10000) {
-        return '';
-    } else {
-        return '万';
-    }
+    const val = parsedAmount.value;
+    if (val === null || val < 10000) return '';
+    return '万';
 });
-
-
 </script>
 
 <style lang="scss" scoped>

@@ -118,6 +118,7 @@ import type { IncomeAccountModel } from '@/api/income/model';
 import { apiAddUserAccount, apiGetUserAccountDetail, apiUpdateUserAccount } from '@/api/user';
 
 import CapsuleButton from '@/components/capsule-button.vue';
+import { isValidIdDocument, isValidMobile } from '@/utils';
 import { onLoad } from '@dcloudio/uni-app';
 
 const isInofoLoaded = ref(false);
@@ -161,9 +162,9 @@ const addAccount = async () => {
             icon: 'none'
         });
         return;
-    } else if (!/^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(from.value.id_card_number)) {
+    } else if (!isValidIdDocument(from.value.id_card_number)) {
         uni.showToast({
-            title: '身份证号格式不对',
+            title: '证件号码格式不对',
             icon: 'none'
         });
         return;
@@ -175,7 +176,7 @@ const addAccount = async () => {
             icon: 'none'
         });
         return;
-    } else if (!/^1[3-9]\d{9}$/.test(from.value.mobile)) {
+    } else if (!isValidMobile(from.value.mobile)) {
         uni.showToast({
             title: '手机号格式不对',
             icon: 'none'
@@ -198,7 +199,7 @@ const addAccount = async () => {
                 icon: 'none'
             });
             return;
-        } else if (!/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/.test(from.value.account_number) && !/^(1[3-9]\d{9})$/.test(from.value.account_number)) {
+        } else if (!/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/.test(from.value.account_number) && !isValidMobile(from.value.account_number)) {
             uni.showToast({
                 title: '支付宝账号格式不对',
                 icon: 'none'

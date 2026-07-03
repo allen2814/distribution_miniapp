@@ -37,8 +37,9 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { onLoad } from '@dcloudio/uni-app';
+import { onShow } from '@dcloudio/uni-app';
 import { useUserStore } from '@/stores';
+import { apiSensitive } from '@/api/user';
 
 import CapsuleButton from '@/components/capsule-button.vue';
 import Albums from '@/pages/albums/list.vue';
@@ -62,20 +63,36 @@ const search = () => {
 //点击栏目事件
 const handelTabs = (index: number) => {
 	tabs_index.value = index;
-}
+};
 
-onLoad(async () => {
+const initTabs = () => {
+	const list = [{ name: '广播剧' }];
 	if (userInfo.value?.is_story == 1) {
-		tabs.value.push({ name: '小说' });
+		list.push({ name: '小说' });
 	}
-
 	if (userInfo.value?.is_book_list == 1) {
-		tabs.value.push({ name: '书单' });
+		list.push({ name: '书单' });
 	}
-
 	if (userInfo.value?.is_anime == 1) {
-		tabs.value.push({ name: '漫剧' });
+		list.push({ name: '漫剧' });
 	}
+	tabs.value = list;
+	if (tabs_index.value >= list.length) {
+		tabs_index.value = 0;
+	}
+};
+
+const refreshUserInfo = async () => {
+	try {
+		userInfo.value = await apiSensitive();
+	} catch {
+		// 请求失败时沿用本地缓存
+	}
+	initTabs();
+};
+
+onShow(() => {
+	refreshUserInfo();
 });
 </script>
 

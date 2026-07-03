@@ -45,7 +45,7 @@ const getUserInfo = async () => {
 	}
 	try {
 		const res = await apiUserLogin(params);
-		if (res && res.is_new == 0) {
+		if (res && res.is_new === 0) {
 			token.value = res.token.AccessToken;
 			userInfo.value = await apiSensitive();
 			uni.reLaunch({ url: '/pages/index' });

@@ -7,10 +7,10 @@
         <view class="info-view">
             <view class="info-view-item">
                 <view class="value">
-                    <text class="currency">￥</text>
-                    {{ safeToFixed(item.money, 2) }}
+                    {{ item.user_count ?? 0 }}
+                    <text class="unit">人</text>
                 </view>
-                <text class="label">拉新</text>
+                <text class="label">拉新人数</text>
             </view>
             <view class="info-view-item">
                 <view class="value">
@@ -35,7 +35,7 @@
     </view>
 </template>
 <script lang="ts" setup>
-import { formatDateTime, safeToFixed } from '@/utils';
+import { formatDateTime } from '@/utils';
 import { SpreadTypeEnum } from '@/utils/enums';
 
 const props = withDefaults(
@@ -45,4 +45,8 @@ const props = withDefaults(
     {}
 );
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.unit {
+    font-size: 21rpx;
+}
+</style>

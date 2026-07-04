@@ -101,10 +101,11 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import { onLoad, onPageScroll } from '@dcloudio/uni-app';
+import { onLoad, onPageScroll, onShow } from '@dcloudio/uni-app';
 import { ReplaceNewlinesWithBr } from '@/utils/main';
 import type { AlbumModel } from '@/api/models';
 import { apiAlbumInfo, apiAlbumMaterial } from '@/api';
+import { apiSensitive } from '@/api/user';
 
 import CapsuleButton from '@/components/capsule-button.vue';
 import { useUserStore } from '@/stores';
@@ -186,6 +187,14 @@ const getInfo = async () => {
 	}
 };
 
+const refreshUserInfo = async () => {
+	try {
+		userInfo.value = await apiSensitive();
+	} catch {
+		// 请求失败时沿用本地缓存
+	}
+};
+
 //监听页面滚动
 onPageScroll((e) => {
 	if (e.scrollTop > 0) {
@@ -193,6 +202,10 @@ onPageScroll((e) => {
 	} else {
 		bgColor.value = 'transparent';
 	}
+});
+
+onShow(() => {
+	refreshUserInfo();
 });
 
 //监听页面加载

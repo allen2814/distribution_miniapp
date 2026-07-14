@@ -20,4 +20,36 @@
 </body>
 </html>
 
-<script></script>
+<script>
+  // 检查是否在Flutter WebView环境中
+  function isInFlutterWebView() {
+    return window.BunnyuFlutterChannel !== undefined;
+  }
+
+  // 发送消息到Flutter
+  function sendToFlutter(action, params = {}) {
+    if (isInFlutterWebView()) {
+      window.BunnyuFlutterChannel.postMessage(
+        JSON.stringify({
+          action: action,
+          params: params,
+        }),
+      );
+    } else {
+      console.log('Not in Flutter WebView');
+    }
+  }
+
+  // 示例：导航到指定页面
+  function navigateToPage(route, params = {}) {
+    sendToFlutter('navigate', {
+      route: route,
+      arguments: params,
+    });
+  }
+
+  // 示例：返回首页
+  function backToHome() {
+    sendToFlutter('backToHome');
+  }
+</script>

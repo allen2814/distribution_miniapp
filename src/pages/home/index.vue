@@ -131,6 +131,7 @@ import { ApiIncomeDetails } from '@/api/income';
 
 import CapsuleButton from '@/components/capsule-button.vue';
 import CurrencyFormat from '@/components/currency-format.vue';
+import { navigateToFlutterPage } from '@/utils/flutter-bridge';
 
 const { userInfo } = toRefs(useUserStore());
 const paging = ref();
@@ -147,9 +148,9 @@ const jumpRealName = () => {
     });
 };
 
-//跳转客服
+//跳转客服（H5 / wgt 统一走 flutter-bridge）
 const jumpCustomerService = () => {
-    plus.runtime.openURL("https://work.weixin.qq.com/ca/cawcde63b0a48c0f97");
+    navigateToFlutterPage('/customer_service', {});
 };
 
 //复制链接

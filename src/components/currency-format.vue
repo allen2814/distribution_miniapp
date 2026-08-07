@@ -24,7 +24,7 @@ const parseAmount = (value: number | string | null | undefined): number | null =
 
 /** 截断到指定小数位，不四舍五入 */
 const truncateToFixed = (value: number, decimals: number) => {
-    const factor = 10 ** decimals;
+    const factor = 100 ** decimals;
     return (Math.trunc(value * factor) / factor).toFixed(decimals);
 };
 

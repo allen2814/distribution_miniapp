@@ -1,7 +1,7 @@
 <template>
     <view class="item" v-for="(item, index) in list" :key="index">
         <view class="name-view">
-            <text class="name">别名：{{ item.alias_name }}</text>
+            <text class="name">{{ item.biz_type === 1 ? '别名' : '刷一刷' }}：{{ item.alias_name }}</text>
             <text class="defult-description">{{ item.pay_time }}</text>
         </view>
         <view class="info-view">
@@ -30,7 +30,7 @@
         <view class="bottom-view">
             <view class="name">
                 {{ item.product_name }}
-                <text class="cate-tag">【{{ SpreadTypeEnum[item.spread_type] }}】</text>
+                <text class="cate-tag">【{{ item.spread_type ? SpreadTypeEnum[item.spread_type] : '短视频' }}】</text>
             </view>
         </view>
     </view>

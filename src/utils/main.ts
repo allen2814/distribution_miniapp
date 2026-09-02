@@ -14,6 +14,21 @@ function previewImages(FilePaths: any, current: number | null = null, currentImg
 	});
 };
 
+/**
+ * 从时间字符串提取 yyyy-MM‑dd
+ * @param timeStr 支持 "2026-06-09 09:53" / "2026-06-09 09:50:28" / "2026-06-09 09"
+ * @returns yyyy‑MM‑dd，解析失败返回空字符串
+ */
+function getYmdSafe(timeStr: string): string {
+	if (!timeStr) return '';
+	const date = new Date(timeStr);
+	if (Number.isNaN(date.getTime())) return '';
+	const y = date.getFullYear();
+	const m = String(date.getMonth() + 1).padStart(2, '0');
+	const d = String(date.getDate()).padStart(2, '0');
+	return `${y}-${m}-${d}`;
+}
+
 //当前时间
 function getToday(): string {
 	const d = new Date();
@@ -208,6 +223,7 @@ function isValidMobile(value: string): boolean {
 
 export {
 	previewImages,
+	getYmdSafe,
 	getToday,
 	formatDateTime,
 	safeToFixed,

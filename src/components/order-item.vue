@@ -2,7 +2,7 @@
     <view class="item" v-for="(item, index) in list" :key="index">
         <view class="name-view">
             <text class="name">{{ item.biz_type === 1 ? '别名' : '刷一刷' }}：{{ item.alias_name }}</text>
-            <text class="defult-description">{{ item.pay_time }}</text>
+            <text class="defult-description">{{ getYmdSafe(item.pay_time) }}</text>
         </view>
         <view class="info-view">
             <view class="info-view-item">
@@ -36,7 +36,7 @@
     </view>
 </template>
 <script lang="ts" setup>
-import { formatDateTime, safeToFixed } from '@/utils';
+import { getYmdSafe, safeToFixed } from '@/utils';
 import { SpreadTypeEnum } from '@/utils/enums';
 
 const props = withDefaults(
